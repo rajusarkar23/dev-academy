@@ -62,7 +62,7 @@ export default function CoursesBySlug() {
         getCourseById()
     }, [])
     return (
-        <div>
+        <div className="min-h-screen bg-black/90">
             {
                 course.map((item) => (
                     <div className="flex justify-between space-x-2 p-4 mx-auto max-w-4xl" key={item.id}>

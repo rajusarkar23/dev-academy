@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const user = await OTPCookie()
 
     console.log(user);
-    
+
 
     if (!user || !otp) {
         return NextResponse.json({ success: false, message: "otp or the session is not valid." })
@@ -38,9 +38,9 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ success: false, message: "Something went wrong in verifying this account, try again." })
     }
 
-    const jwt_token = jwt.sign({userId: update[0].id}, `${process.env.SESSION_FOR_ADMIN}`);
+    const jwt_token = jwt.sign({ userId: update[0].id }, `${process.env.SESSION_FOR_ADMIN}`);
 
-    (await cookies()).set("a_session", jwt_token, {maxAge: 30 * 24 * 60 * 60, httpOnly: true})
+    (await cookies()).set("a_session", jwt_token, { maxAge: 30 * 24 * 60 * 60, expires: 30 * 24 * 60 * 60, httpOnly: true })
 
     return NextResponse.json({ success: true, message: "Verified successfully." })
 }

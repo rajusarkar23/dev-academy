@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
         const jwt_token = jwt.sign({ userId: findAdminByEmail[0].id }, `${process.env.SESSION_FOR_STUDENT}`);
 
-        (await cookies()).set("session", jwt_token, { maxAge: 30 * 24 * 60 * 60, httpOnly: true })
+        (await cookies()).set("session", jwt_token, { maxAge: 30 * 24 * 60 * 60, expires: 30 * 24 * 60 * 60, httpOnly: true })
 
         return NextResponse.json({ success: true, message: "Login success." })
     } catch (error) {

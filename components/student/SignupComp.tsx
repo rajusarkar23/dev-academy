@@ -51,14 +51,14 @@ export default function SignupComp() {
 
     }
     return (
-        <div className="flex flex-col min-h-screen   justify-center items-center bg-blue-900/90">
+        <div className="flex flex-col min-h-screen justify-center items-center bg-blue-900/90">
             <form className="w-full flex flex-col items-center justify-center max-w-sm mx-auto space-y-4 bg-white/80 shadow-2xl rounded-lg h-[450px]" onSubmit={handleSubmit(onsubmit)}>
                 <div>
                     <h2 className="text-center font-bold text-4xl text-black">Signup</h2>
                     <p className="font-bold text-gray-400 text-sm">Welcome, please signup first.</p>
                 </div>
                 <div className="w-full space-y-4 px-4">
-                <div>
+                    <div>
                         <Input label="Name" type="text" {...register("name", { required: "Enter your name." })} aria-invalid={errors.email ? "true" : "false"} />
                         {errors.name && <p role="alert" className="text-xs text-red-500 ml-1">{errors.name.message}</p>}
                     </div>
