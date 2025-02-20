@@ -1,8 +1,7 @@
 "use client"
 
-import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
-import { UserPen } from "lucide-react";
+import { CalendarCheck, Clock, UserPen } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -62,17 +61,19 @@ export default function CoursesBySlug() {
         getCourseById()
     }, [])
     return (
-        <div className="min-h-screen bg-black/90">
+        <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950">
             {
                 course.map((item) => (
-                    <div className="flex justify-between space-x-2 p-4 mx-auto max-w-4xl" key={item.id}>
+                    <div className="sm:flex sm:justify-between space-x-2 p-4 mx-auto max-w-4xl" key={item.id}>
                         {/* for left side */}
                         <div>
-                            <div>
+                            <div className="space-y-2">
                                 <p className="text-2xl font-bold">{item.courseHeading}</p>
                                 <p className="text-gray-400 font-bold">{item.courseShortDescription}</p>
-                                <div>
-                                    <Chip startContent={<UserPen size={20} />} variant="flat" color="success">{item.courseInstrutor}</Chip>
+                                <div className="space-x-1">
+                                    <Chip startContent={<UserPen size={22} className="text-white/60" />} variant="flat" color="primary" className="px-2"><p className="font-semibold text-white/60">{item.courseInstrutor}</p></Chip>
+                                    <Chip startContent={<Clock size={22} className="text-white/60" />} variant="flat" color="primary" className="px-2"><p className="font-semibold text-white/60">{item.courseDuration}</p></Chip>
+                                    <Chip startContent={<CalendarCheck size={22} className="text-white/60" />} variant="flat" color="primary" className="px-2"><p className="font-semibold text-white/60">{item.courseDuration}</p></Chip>
                                 </div>
 
                                 <div className="mx-auto max-w-3xl">
@@ -83,10 +84,10 @@ export default function CoursesBySlug() {
                         {/* for right side */}
                         <div>
                             <div className="flex flex-col justify-center items-center border bg-gradient-to-br from-gray-900 to-red-900 rounded">
-                                <Image src={item.courseImageURL} alt={item.courseName} height={300} width={300} className="p-4 rounded-xl" />
+                                <Image src={item.courseImageURL} alt={item.courseName} height={400} width={400} className="p-4" />
                                 <p className="text-2xl font-bold text-white/80">{item.courseName}@{item.coursePrice}</p>
                                 <div className="px-4 w-full mb-4 mt-4">
-                                    <PlaceOrderBtn price={item.coursePrice} product={item.id}/>
+                                    <PlaceOrderBtn price={item.coursePrice} product={item.id} />
                                 </div>
 
                             </div>
