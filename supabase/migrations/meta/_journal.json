@@ -8,6 +8,20 @@
       "when": 1740047846931,
       "tag": "0000_handy_the_watchers",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1740051233358,
+      "tag": "0001_square_shooting_star",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1740051721935,
+      "tag": "0002_tearful_wolfsbane",
+      "breakpoints": true
     }
   ]
 }
