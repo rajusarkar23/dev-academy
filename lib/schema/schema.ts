@@ -43,3 +43,14 @@ export const Course = pgTable("courses", {
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().$onUpdate(() => new Date())
 })
+
+export const Order = pgTable("order", {
+    id: serial("id").primaryKey(),
+    courseId: integer("course_id").notNull().references(() => Course.id, {onDelete: "cascade"}),
+    student: integer("student").notNull().references(() => Student.id, {onDelete: "cascade"}),
+    courseAmount: text("course_amount").notNull(),
+    paymentSessionId: text("payment_session_id").notNull().unique(),
+    paymentId: text("payment_id").unique(),
+    paymentSuccess: boolean("payment_success").default(false),
+    isOrderPlaceSuccess: boolean("is_order_place_success").default(false)
+})
