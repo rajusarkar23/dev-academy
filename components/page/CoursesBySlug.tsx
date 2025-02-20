@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import PlaceOrderBtn from "../checkout/PlaceOrderBtn";
+import { Skeleton } from "@heroui/skeleton";
 
 interface course {
     courseDescription: string,
@@ -28,13 +29,14 @@ interface course {
 export default function CoursesBySlug() {
 
     const [course, setCourse] = useState<course[]>([])
-    console.log(course);
+    const [loading, setLoading] = useState(false)
 
     const slug = useParams().slug
 
 
     const getCourseById = async () => {
         try {
+            setLoading(true)
             const res = await fetch("/api/page/courses/by-slug", {
                 method: "POST",
                 headers: {
@@ -47,12 +49,15 @@ export default function CoursesBySlug() {
 
             if (response.success === true) {
                 setCourse(response.course)
+                setLoading(false)
             } else {
                 console.log(response);
+                setLoading(false)
             }
 
         } catch (error) {
             console.log(error);
+            setLoading(false)
 
         }
     }
@@ -62,13 +67,26 @@ export default function CoursesBySlug() {
     }, [])
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950">
+            {/* <div>
+                {
+                    loading ? (<Skeleton className="bg-blue-300/30"><p>Loading</p></Skeleton>) : (<h1>dvkjb</h1>)
+                }
+
+            </div> */}
             {
                 course.map((item) => (
                     <div className="sm:flex sm:justify-between space-x-2 p-4 mx-auto max-w-4xl" key={item.id}>
                         {/* for left side */}
                         <div>
                             <div className="space-y-2">
-                                <p className="text-2xl font-bold">{item.courseHeading}</p>
+                                <div>
+                                    {
+                                        loading ? (<Skeleton className="rounded-full bg-blue-400/20">
+                                            <p>loading....</p></Skeleton>) : (
+                                            <p className="text-2xl font-bold">{item.courseHeading}</p>
+                                        )
+                                    }
+                                </div>
                                 <p className="text-gray-400 font-bold">{item.courseShortDescription}</p>
                                 <div className="space-x-1">
                                     <Chip startContent={<UserPen size={22} className="text-white/60" />} variant="flat" color="primary" className="px-2"><p className="font-semibold text-white/60">{item.courseInstrutor}</p></Chip>

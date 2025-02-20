@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ success: false, message: "Account is not verified yet." })
         }
 
-        const jwt_token = jwt.sign({ userId: findAdminByEmail[0].id }, `${process.env.SESSION_FOR_STUDENT}`);
+        const jwt_token = jwt.sign({ studentId: findAdminByEmail[0].id }, `${process.env.SESSION_FOR_STUDENT}`);
 
         (await cookies()).set("session", jwt_token, { maxAge: 30 * 24 * 60 * 60, expires: 30 * 24 * 60 * 60, httpOnly: true })
 

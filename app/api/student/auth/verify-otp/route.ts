@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     }
 
     const jwt_token = jwt.sign(
-        { userId: update[0].id },
+        { studentId: update[0].id },
         `${process.env.SESSION_FOR_STUDENT}`
     );
 

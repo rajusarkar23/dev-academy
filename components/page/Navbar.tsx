@@ -1,7 +1,11 @@
+import { authValidate } from "@/app/actions/auth-validate/action";
+import { Avatar } from "@heroui/avatar";
 import { CodeXml } from "lucide-react";
 import Link from "next/link";
 
-export default function Navbar() {
+export default async function Navbar() {
+
+    const auth = await authValidate()
 
     return (
         <nav>
@@ -14,7 +18,9 @@ export default function Navbar() {
                         <Link href={"/"}>Courses</Link>
                     </div>
                     <div>
-                        <Link href={"/auth/signin"}>Signin</Link>
+                        {
+                            auth.authenticated ? (<Avatar isBordered color="primary" size="sm"/>) : (<Link href={"/auth/signin"}>Signin</Link>)
+                        }
                     </div>
 
                 </div>

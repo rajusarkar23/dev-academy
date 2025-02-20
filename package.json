@@ -14,6 +14,7 @@
     "@heroui/button": "^2.2.13",
     "@heroui/input": "^2.4.13",
     "@heroui/react": "^2.7.2",
+    "@heroui/skeleton": "^2.2.9",
     "@heroui/spinner": "^2.2.10",
     "@tiptap/extension-image": "^2.11.5",
     "@tiptap/react": "^2.11.5",
