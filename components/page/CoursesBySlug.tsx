@@ -36,7 +36,7 @@ export default function CoursesBySlug() {
 
     const getCourseById = async () => {
         try {
-            const res = await fetch("/api/pages/course/by-slug", {
+            const res = await fetch("/api/page/courses/by-slug", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

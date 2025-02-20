@@ -11,7 +11,7 @@ export default function Hero() {
                 <h1 className="text-6xl text-center ">Master your full-stack web development skills with this bootcamp.</h1>
                 <p className="text-center">We will teach here evrything, that make you a good developer. This bootcamp include Recat, Next.js, Node.js, Databases like MongoDB/PostgreSQL</p>
                 <div className="flex justify-center mt-2 space-x-4 items-center">
-                    <Link href={`/courses/master-aws`} className="px-5 py-3 bg-blue-600 shadow-lg rounded-lg font-bold text-white/80 hover:scale-105 transition-all">Join Now</Link>
+                    <Link href={`/course/master-aws`} className="px-5 py-3 bg-blue-600 shadow-lg rounded-lg font-bold text-white/80 hover:scale-105 transition-all">Join Now</Link>
                     <Link href={"/dashboard/123"} className="px-5 py-3 bg-yellow-100/40 rounded-lg font-bold text-white/80 hover:scale-105 transition-all shadow-lg">Learn</Link>
                 </div>
             </div>

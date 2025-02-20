@@ -52,7 +52,7 @@ export default function AllCoursesComp() {
             {
                 courses.map((items) => (
                     <div key={items.id}>
-                        <Link href={`/admin/dashboard/course/${items.id}`}>
+                        <Link href={`/admin/dashboard/courses/${items.id}`}>
                             <p>{items.courseName}</p>
                         </Link>
                     </div>
