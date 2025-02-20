@@ -1,10 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
+import Hero from "@/components/page/Hero";
 
 export default function Home() {
   return (
-    <div>
-      <Link href={"/admin/signup"}>Go</Link>
-    </div>
+    <main>
+      <section>
+        <Hero />
+      </section>
+    </main>
   );
 }

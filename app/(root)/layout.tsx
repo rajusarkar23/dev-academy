@@ -24,7 +24,6 @@ export default function MainLayout({
 }>) {
   return (
     <div>
-      <h1>jhdkj</h1>
       {children}
     </div>
   );
