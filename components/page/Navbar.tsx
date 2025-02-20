@@ -14,7 +14,7 @@ export default function Navbar() {
                         <Link href={"/"}>Courses</Link>
                     </div>
                     <div>
-                        <Link href={"/"}>Courses</Link>
+                        <Link href={"/auth/signup"}>Courses</Link>
                     </div>
 
                 </div>
