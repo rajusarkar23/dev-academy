@@ -30,15 +30,8 @@ export async function fetchDetailsForOrder(){
 
     const data = await res.json()
 
-    console.log(data);
+    // console.log(data);
     
-    
+    return data
 
 }
-
-
-
-// user email
-// prouct
-
-// fetch-product-and-user

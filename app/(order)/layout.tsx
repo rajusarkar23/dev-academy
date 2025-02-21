@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import Navbar from "@/components/page/Navbar";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -14,7 +13,6 @@ export default function OrderLayout({
 }>) {
     return (
         <div>
-            <Navbar />
             {children}
         </div>
     );

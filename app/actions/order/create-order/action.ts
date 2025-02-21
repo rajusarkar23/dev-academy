@@ -31,7 +31,7 @@ export async function createOrder({ price, productId }: { price: string, product
     })
 
     const data = await res.json();
-    (await cookies()).set("uupid", data.uniqueId, {maxAge: 10 * 60, expires: 10 * 60, httpOnly: true})
+    (await cookies()).set("uupid", data.uniqueId, {maxAge: 60 * 60, expires: 60 * 60, httpOnly: true})
     console.log(data);
     if (data.success === true) {
         redirect(`/order-details/${data.uniqueId}`)

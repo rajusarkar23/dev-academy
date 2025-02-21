@@ -24,7 +24,11 @@ export async function POST(req: NextRequest) {
 
         }
 
-        const orderDetails = { productTitle: getProduct[0].courseName, studentEmail: findStudent[0].email, price: getProduct[0].coursePrice }
+        const orderDetails = { 
+            productTitle: getProduct[0].courseName, 
+            studentEmail: findStudent[0].email, price: getProduct[0].coursePrice,
+            orderUniqueId: order[0].uniqueOrderIdentifier
+        }
 
         return NextResponse.json({ success: true, message: "Fetched", details: orderDetails })
 
@@ -33,6 +37,7 @@ export async function POST(req: NextRequest) {
     }
 }
 
+// student email
+// course price
+// order or uuid
 // product
-
-// studet

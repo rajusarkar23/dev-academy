@@ -1,10 +1,8 @@
 import { db } from "@/lib/db/db"
 import { generateOTP } from "@/lib/generate-otp"
 import { Order } from "@/lib/schema/schema"
-import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 
-import jwt from "jsonwebtoken"
 
 export async function POST(req: NextResponse) {
     const { price, productId, studentId } = await req.json()
@@ -24,11 +22,6 @@ export async function POST(req: NextResponse) {
                 success: false, message: "Unable to create order, please try again"
             })
         }
-
-
-        // const jwt_token = jwt.sign()
-
-        // (await cookies()).set()
 
         return NextResponse.json({
             success: true, message: "Order created successfully", uniqueId: createOrder[0].uniqueOrderIdentifier

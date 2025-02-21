@@ -3,7 +3,7 @@ import { Button } from "@heroui/button";
 import { Spinner } from "@heroui/spinner";
 import { useState } from "react";
 
-export default function PlaceOrderBtn({ product, price }: { product: string, price: string }) {
+export default function PlaceOrderBtn({ product, price, orderUniqueId, email }: { product: string, price: string, orderUniqueId: string, email: string }) {
 
     const [loading, setLoading] = useState(false)
 
@@ -47,8 +47,8 @@ export default function PlaceOrderBtn({ product, price }: { product: string, pri
             {
                 loading ? (<Button isDisabled className="w-full" color="primary"><Spinner color="white" /></Button>) : (<Button
                     onPress={handlePayment}
-                    className="w-full" color="primary">
-                    Buy
+                    className="w-full font-semibold text-xl border border-green-300 shadow shadow-white/20" color="secondary" >
+                    Go for checkout
                 </Button>)
             }
         </div>
