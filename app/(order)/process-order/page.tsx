@@ -1,5 +1,5 @@
 import React from 'react'
-import { processOrder } from '../actions/payment/action'
+import { processOrder } from '../../actions/payment/action'
 import { Skeleton } from '@heroui/skeleton'
 
 const ProcessOrder = async () => {

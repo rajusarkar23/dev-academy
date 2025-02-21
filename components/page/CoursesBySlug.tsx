@@ -7,6 +7,8 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import PlaceOrderBtn from "../checkout/PlaceOrderBtn";
 import { Skeleton } from "@heroui/skeleton";
+import { Button } from "@heroui/button";
+import { createOrder } from "@/app/actions/order/create-order/action";
 
 interface course {
     courseDescription: string,
@@ -62,6 +64,15 @@ export default function CoursesBySlug() {
         }
     }
 
+    const handlePress = async () => {
+        const order = await createOrder({
+            price: course[0].coursePrice, productId: course[0].id
+        })
+        console.log(order);
+        
+
+    }
+
     useEffect(() => {
         getCourseById()
     }, [])
@@ -105,7 +116,10 @@ export default function CoursesBySlug() {
                                 <Image src={item.courseImageURL} alt={item.courseName} height={400} width={400} className="p-4" />
                                 <p className="text-2xl font-bold text-white/80">{item.courseName}@{item.coursePrice}</p>
                                 <div className="px-4 w-full mb-4 mt-4">
-                                    <PlaceOrderBtn price={item.coursePrice} product={item.id} />
+                                    {/* <PlaceOrderBtn price={item.coursePrice} product={item.id} />
+                                     */}
+
+                                    <Button onPress={handlePress}>Get access</Button>
                                 </div>
 
                             </div>

@@ -1,0 +1,1 @@
+ALTER TABLE "order" ALTER COLUMN "payment_session_id" DROP NOT NULL;
