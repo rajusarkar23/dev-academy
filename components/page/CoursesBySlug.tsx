@@ -5,7 +5,6 @@ import { CalendarCheck, Clock, UserPen } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import PlaceOrderBtn from "../checkout/PlaceOrderBtn";
 import { Skeleton } from "@heroui/skeleton";
 import { Button } from "@heroui/button";
 import { createOrder } from "@/app/actions/order/create-order/action";

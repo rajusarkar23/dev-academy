@@ -3,7 +3,6 @@ import Stripe from "stripe"
 
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken"
-import { studentSession } from "@/lib/cookie-session/student-session";
 import { db } from "@/lib/db/db";
 import { Order } from "@/lib/schema/schema";
 import { eq } from "drizzle-orm";
@@ -21,8 +20,6 @@ export async function POST(req: NextRequest) {
         email,
         orderUniqueId
     } = await req.json()
-
-    const studentId = await studentSession()
 
     try {
         const session = await stripe.checkout.sessions.create({

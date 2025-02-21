@@ -1,6 +1,5 @@
 import React from 'react'
 import { processOrder } from '../../actions/payment/action'
-import { Skeleton } from '@heroui/skeleton'
 
 const ProcessOrder = async () => {
 
@@ -8,11 +7,9 @@ const ProcessOrder = async () => {
 
     return (
         <div>
-            <Skeleton>
                 <p>
                     {order.message}
                 </p>
-            </Skeleton>
 
         </div>
     )

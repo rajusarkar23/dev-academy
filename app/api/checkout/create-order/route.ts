@@ -1,10 +1,10 @@
 import { db } from "@/lib/db/db"
 import { generateOTP } from "@/lib/generate-otp"
 import { Order } from "@/lib/schema/schema"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 
-export async function POST(req: NextResponse) {
+export async function POST(req: NextRequest) {
     const { price, productId, studentId } = await req.json()
     
     const uniqueOrderIdentifier = generateOTP(12)

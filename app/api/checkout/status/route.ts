@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { db } from "@/lib/db/db";
-import { Order } from "@/lib/schema/schema";
+import { Course, Order } from "@/lib/schema/schema";
 import { eq } from "drizzle-orm";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
@@ -26,6 +26,13 @@ export async function POST(req: NextRequest) {
                 isOrderPlaceSuccess: true,
                 paymentSuccess: true
             }).where(eq(Order.uniqueOrderIdentifier, orderUniqueId))
+
+            const getFullOrder = await db.select().from(Order).where(eq(Order.uniqueOrderIdentifier, orderUniqueId))
+            const getCourse = await db.select().from(Course).where(eq(Course.id, getFullOrder[0].courseId))
+            await db.update(Course).set({
+                studentCapacity: (Number(getCourse[0].studentCapacity) - 1).toString()
+            }).where(eq(Course.id, getCourse[0].id)).returning()
+
         }
 
         return NextResponse.json({ success: true, message: "Payment done successfully." })
