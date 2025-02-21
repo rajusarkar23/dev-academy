@@ -11,7 +11,7 @@ export async function authValidate() {
     const verify = jwt.verify(cookie, `${process.env.SESSION_FOR_STUDENT}`)
     //@ts-expect-error, student id is there
     const userId = verify.studentId
-    console.log(userId);
+    // console.log(userId);
 
     if (typeof userId === "undefined") {
         return
@@ -28,7 +28,7 @@ export async function authValidate() {
 
     const data = await getUserLogin.json()
 
-    console.log(data);
+    // console.log(data);
 
     return data;
 
