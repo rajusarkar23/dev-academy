@@ -18,6 +18,8 @@ export default function PlaceOrderBtn({ product, price, orderUniqueId, email }: 
                 body: JSON.stringify({
                     price,
                     product,
+                    email,
+                    orderUniqueId,
                     successUrl: `${window.location.origin}/process-order`,
                     cancelUrl: `${window.location.origin}/cancel`
                 })

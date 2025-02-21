@@ -18,7 +18,7 @@ export async function processOrder() {
     //@ts-expect-error, sessionId is available
     const sessionId = verify.sessionId;
     //@ts-expect-error, orderId is available
-    const orderId = verify.orderId;
+    const orderUniqueId = verify.orderUniqueId;
 
 
     const res = await fetch("http://localhost:3000/api/checkout/status", {
@@ -26,7 +26,7 @@ export async function processOrder() {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ sessionId, orderId })
+        body: JSON.stringify({ sessionId, orderUniqueId })
     })
 
     const data = await res.json()
