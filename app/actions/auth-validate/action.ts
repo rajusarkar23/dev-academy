@@ -8,29 +8,25 @@ export async function authValidate() {
         return { authenticated: false, message: "No cookie available" }
     }
 
-    const verify = jwt.verify(cookie, `${process.env.SESSION_FOR_STUDENT}`)
-    //@ts-expect-error, student id is there
-    const userId = verify.studentId
-    // console.log(userId);
+    try {
+        const verify = jwt.verify(cookie, `${process.env.SESSION_FOR_STUDENT}`)
+        //@ts-expect-error, student id is there
+        const userId = verify.studentId
 
-    if (typeof userId === "undefined") {
-        return
+        const getUserLogin = await fetch("http://localhost:3000/api/student/auth/auth-validation", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ studentId: userId })
+        })
+
+        const data = await getUserLogin.json()
+        return data;
+    } catch (error) {
+        console.log(error);
+        let data = { authenticated: false }
+        return data;
     }
-    
-
-    const getUserLogin = await fetch("http://localhost:3000/api/student/auth/auth-validation", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ studentId: userId })
-    })
-
-    const data = await getUserLogin.json()
-
-    // console.log(data);
-
-    return data;
-
 
 }
