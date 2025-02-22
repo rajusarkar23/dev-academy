@@ -19,7 +19,7 @@ export default async function Navbar() {
                     </div>
                     <div>
                         {
-                            auth.authenticated ? (<Avatar isBordered color="primary" size="sm"/>) : (<Link href={"/auth/signin"}>Signin</Link>)
+                            auth.authenticated ? (<Link href={"/profile"}><Avatar isBordered color="primary" size="sm"/></Link>) : (<Link href={"/auth/signin"}>Signin</Link>)
                         }
                     </div>
 

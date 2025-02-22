@@ -1,9 +1,14 @@
+import ProfileComp from '@/components/student/ProfileComp'
 import React from 'react'
 
-const page = () => {
+const Profile = () => {
+
+
   return (
-    <div>page</div>
+    <div>
+      <ProfileComp />
+    </div>
   )
 }
 
-export default page
+export default Profile
