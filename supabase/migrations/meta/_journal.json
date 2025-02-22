@@ -43,6 +43,83 @@
       "when": 1740133381447,
       "tag": "0005_true_blazing_skull",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1740215504947,
+      "tag": "0006_clean_starbolt",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1740215548833,
+      "tag": "0007_purple_kate_bishop",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1740215682878,
+      "tag": "0008_early_ultragirl",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1740216667910,
+      "tag": "0009_outstanding_madrox",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1740216813712,
+      "tag": "0010_demonic_madelyne_pryor",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1740217540847,
+      "tag": "0011_gifted_lake",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1740218408414,
+      "tag": "0012_mysterious_blackheart",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1740220044959,
+      "tag": "0013_elite_puck",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1740220079761,
+      "tag": "0014_modern_sharon_carter",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1740220156281,
+      "tag": "0015_careful_captain_flint",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1740220333046,
+      "tag": "0016_demonic_ikaris",
+      "breakpoints": true
     }
   ]
 }

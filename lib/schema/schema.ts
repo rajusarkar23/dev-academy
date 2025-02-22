@@ -10,7 +10,7 @@ export const Student = pgTable("student", {
     isVerified: boolean("is_verified").notNull().default(false),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().$onUpdate(() => new Date()),
-    enrollments: text("enrollments").array().notNull().default(sql`'{}'::text[]`)
+    enrollments: integer("enrollments").array().notNull().default(sql`'{}'::integer[]`)
 })
 
 export const Admin = pgTable("admin", {

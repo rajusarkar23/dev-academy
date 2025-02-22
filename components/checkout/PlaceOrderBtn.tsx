@@ -1,6 +1,7 @@
 "use client"
 import { Button } from "@heroui/button";
 import { Spinner } from "@heroui/spinner";
+import { MoveRight } from "lucide-react";
 import { useState } from "react";
 
 export default function PlaceOrderBtn({ product, price, orderUniqueId, email }: { product: string, price: string, orderUniqueId: string, email: string }) {
@@ -49,8 +50,8 @@ export default function PlaceOrderBtn({ product, price, orderUniqueId, email }: 
             {
                 loading ? (<Button isDisabled className="w-full" color="primary"><Spinner color="white" /></Button>) : (<Button
                     onPress={handlePayment}
-                    className="w-full font-semibold text-xl border border-green-300 shadow shadow-white/20" color="secondary" >
-                    Go for checkout
+                    className="w-full font-semibold text-xl border border-green-300 shadow shadow-white/20" color="primary" >
+                    Go for checkout <MoveRight />
                 </Button>)
             }
         </div>

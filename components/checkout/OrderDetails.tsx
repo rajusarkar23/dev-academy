@@ -1,25 +1,26 @@
 import { fetchDetailsForOrder } from "@/app/actions/order/fetch-details-for-order/action"
 import PlaceOrderBtn from "./PlaceOrderBtn";
+import { CreditCard } from "lucide-react";
 
 export default async function OrderDetailsComp() {
     const data = await fetchDetailsForOrder()
     console.log(data.details);
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900 mx-auto w-full">
-            <div className="border border-gray-700 mx-auto max-w-2xl w-full flex flex-col justify-center items-center h-96 bg-black/20 rounded-lg space-y-4">
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center px-4">
+            <div className="bg-white rounded-lg shadow-xl p-8 max-w-xl w-full h-80 flex items-center flex-col justify-center space-y-3">
                 <div className="flex justify-center flex-col items-center">
-                    <div>
-                        <h2 className="text-3xl font-semibold">Order details</h2>
+                    <div className="mb-4">
+                        <h2 className="text-3xl font-bold flex items-center gap-1 text-green-600"><CreditCard color="green" size={30}/>Order details</h2>
                     </div>
                     <div>
                         <div>
-                            <p className="text-2xl text-center">Course: <span className="font-semibold text-2xl text-blue-300/80">{data.details.productTitle}</span></p>
+                            <p className="text-2xl text-center text-black">Course:- <span className="font-semibold text-2xl text-blue-950">{data.details.productTitle}</span></p>
                         </div>
                         <div>
-                            <p className="text-2xl text-center">Confirmation will be sent to: <span className="font-semibold text-2xl text-blue-300/80">{data.details.studentEmail}</span></p>
+                            <p className="text-2xl text-center text-black">Your email:- <span className="font-semibold text-2xl text-blue-950">{data.details.studentEmail}</span></p>
                         </div>
                         <div>
-                            <p className="text-2xl text-center">Course fees: <span className="font-semibold text-2xl text-blue-300/80">{data.details.price}</span></p>
+                            <p className="text-2xl text-center text-black">Course fees:- <span className="font-semibold text-2xl text-blue-950">INR {data.details.price}</span></p>
                         </div>
                     </div>
                 </div>

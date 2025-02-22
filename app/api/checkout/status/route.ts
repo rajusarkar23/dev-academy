@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { db } from "@/lib/db/db";
-import { Course, Order } from "@/lib/schema/schema";
-import { eq } from "drizzle-orm";
+import { Course, Order, Student } from "@/lib/schema/schema";
+import { eq, sql } from "drizzle-orm";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: "2025-01-27.acacia"
@@ -28,14 +28,34 @@ export async function POST(req: NextRequest) {
             }).where(eq(Order.uniqueOrderIdentifier, orderUniqueId))
 
             const getFullOrder = await db.select().from(Order).where(eq(Order.uniqueOrderIdentifier, orderUniqueId))
+            getFullOrder[0].courseId
             const getCourse = await db.select().from(Course).where(eq(Course.id, getFullOrder[0].courseId))
+            const courseId = getCourse[0].id
             await db.update(Course).set({
                 studentCapacity: (Number(getCourse[0].studentCapacity) - 1).toString()
             }).where(eq(Course.id, getCourse[0].id)).returning()
 
+            const student = await db.select().from(Student).where(eq(Student.id, getFullOrder[0].student))
+            const enroll = student[0].enrollments
+
+            if (enroll.length !== 0) {
+                const newEnroll = [...enroll, courseId]
+                console.log("enrollToStr", newEnroll);
+                await db.update(Student).set({
+                    enrollments: newEnroll
+                }).where(eq(Student.id, getFullOrder[0].student))
+
+                return NextResponse.json({ success: true, message: "Payment done successfully." })
+            } else{
+                await db.update(Student).set({
+                    enrollments: [courseId]
+                }).where(eq(Student.id, getFullOrder[0].student))
+                return NextResponse.json({ success: true, message: "Payment done successfully." })
+            }
         }
 
-        return NextResponse.json({ success: true, message: "Payment done successfully." })
+        return NextResponse.json({ success: false, message: "Payment failed." })
+
     } catch (error) {
         console.log(error);
     }

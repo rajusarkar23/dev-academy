@@ -1,0 +1,1 @@
+ALTER TABLE "student" ALTER COLUMN "enrollments" SET DEFAULT ARRAY[]::integer[0];
