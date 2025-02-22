@@ -1,35 +1,46 @@
-import { fetchDetailsForOrder } from "@/app/actions/order/fetch-details-for-order/action"
+"use client"
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
 import PlaceOrderBtn from "./PlaceOrderBtn";
 import { CreditCard } from "lucide-react";
 
-export default async function OrderDetailsComp() {
-    const data = await fetchDetailsForOrder()
-    console.log(data.details);
+export default function OrderDetailsComp({ email, price, courseName, orderUniqueId }: { email: string, price: string, courseName: string, orderUniqueId: string }) {
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center px-4">
             <div className="bg-white rounded-lg shadow-xl p-8 max-w-xl w-full h-80 flex items-center flex-col justify-center space-y-3">
-                <div className="flex justify-center flex-col items-center">
-                    <div className="mb-4">
-                        <h2 className="text-3xl font-bold flex items-center gap-1 text-green-600"><CreditCard color="green" size={30}/>Order details</h2>
+                <div className="flex justify-center flex-col items-center w-full">
+                    <div className="mb-2">
+                        <h2 className="text-3xl font-bold flex items-center text-blue-500">
+                            <CreditCard size={35} className="mr-2"/>  Your checkout details
+                        </h2>
                     </div>
-                    <div>
-                        <div>
-                            <p className="text-2xl text-center text-black">Course:- <span className="font-semibold text-2xl text-blue-950">{data.details.productTitle}</span></p>
-                        </div>
-                        <div>
-                            <p className="text-2xl text-center text-black">Your email:- <span className="font-semibold text-2xl text-blue-950">{data.details.studentEmail}</span></p>
-                        </div>
-                        <div>
-                            <p className="text-2xl text-center text-black">Course fees:- <span className="font-semibold text-2xl text-blue-950">INR {data.details.price}</span></p>
-                        </div>
-                    </div>
+                    <Table hideHeader aria-label="Example static collection table">
+                        <TableHeader>
+                            <TableColumn>Field name</TableColumn>
+                            <TableColumn>Field value</TableColumn>
+                        </TableHeader>
+                        <TableBody>
+                            <TableRow key="1" className="border shadow-md">
+                                <TableCell className="text-black">Course name:</TableCell>
+                                <TableCell className="text-black font-semibold">{courseName}</TableCell>
+                            </TableRow>
+                            <TableRow key="2" className="border shadow-md">
+                                <TableCell className="text-black">Email:</TableCell>
+                                <TableCell className="text-black font-semibold">{email}</TableCell>
+                            </TableRow>
+                            <TableRow key="3" className="border shadow-md">
+                                <TableCell className="text-black">Price:</TableCell>
+                                <TableCell className="text-black font-semibold">INR {price}</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
                 </div>
                 <div>
                     <PlaceOrderBtn
-                        price={data.details.price}
-                        product={data.details.productTitle}
-                        email={data.details.studentEmail}
-                        orderUniqueId={data.details.orderUniqueId}
+                        price={price}
+                        product={courseName}
+                        email={email}
+                        orderUniqueId={orderUniqueId}
                     />
                 </div>
             </div>
