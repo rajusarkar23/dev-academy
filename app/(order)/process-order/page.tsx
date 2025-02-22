@@ -1,16 +1,19 @@
 import React from 'react'
 import { processOrder } from '../../actions/payment/action'
+import ProcessOrderComp from '@/components/checkout/ProcessOrderComp';
 
 const ProcessOrder = async () => {
 
     const order = await processOrder()
+    console.log(order);
+    
 
     return (
         <div>
-                <p>
-                    {order.message}
-                </p>
-
+            {
+                order.success ? (  <ProcessOrderComp />) : (<p>Something went wrong.</p>)
+            }
+          
         </div>
     )
 }
