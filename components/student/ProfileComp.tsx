@@ -1,6 +1,8 @@
 "use client"
 import { Accordion, AccordionItem } from "@heroui/accordion";
 import { Button } from "@heroui/button";
+import { Chip } from "@heroui/react";
+import Image from "next/image";
 
 interface courses {
     courseName: string,
@@ -30,11 +32,14 @@ export default function ProfileComp({email, name, courses}: {email: string, name
                         </AccordionItem>
                     </Accordion>
                 </div>
-                <div>
+                <div className="flex space-x-4 justify-center items-center">
                     {
                         courses.map((items, index) => (
-                            <div key={index}>
+                            <div key={index} className="border space-x-2 p-4 bg-gray-800/70">
                                 <p>{items.courseName}</p>
+                                <Chip>{items.instructor}</Chip>
+                                <Image src={items.imageUrl} alt={items.courseName} height={200} width={200}/>
+                                <p>{items.courseShortDescription}</p>
                             </div>
                         ))
                     }

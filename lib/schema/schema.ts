@@ -35,6 +35,7 @@ export const Course = pgTable("courses", {
     courseStartDate: text("course_start_date").notNull(),
     courseEndDate: text("course_end_date").notNull(),
     studentCapacity: text("student_capacity").notNull(),
+    seatsAvailable: text("seats_available"),
     courseDescription: text("course_description").notNull(),
     courseImageURL: text("course_image_url").notNull(),
     courseVideoURL: text("course_video_url").notNull(),
