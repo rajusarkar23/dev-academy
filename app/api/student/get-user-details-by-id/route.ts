@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { db } from "@/lib/db/db";
 import { Course, Student } from "@/lib/schema/schema";
 
@@ -21,28 +21,18 @@ export async function POST(req: NextRequest) {
         }
 
         const studentEnrollmentArr = findStudent[0].enrollments
+        
 
-        // const getStudentCourses = async () => {
-        // studentEnrollmentArr.forEach(async function getCourses(items: number, index: number) {
-        //     let allCourses: any = []
-        //     const courses = (await db.select().from(Course).where(eq(Course.id, items)))
-        //     allCourses.push(courses)
-        //     // console.log(allCourses);
-        //     return allCourses
-        // })
+        const getStudentCourses = await db.select().from(Course).where(inArray(Course.id, studentEnrollmentArr))
 
-        studentEnrollmentArr.forEach(async (items: number, index: number) => {
-            let arr: any = []
-            const courses = await db.select().from(Course).where(eq(Course.id, items))
-            arr.push(courses)
-            console.log(arr);
-
+        if (getStudentCourses.length === 0) {
+            return NextResponse.json({message: "Student dont have any enrolled courses"})
         }
-        )
-
-        return NextResponse.json({
-            success: true, message: "User session available", student: findStudent
-        })
+        return NextResponse.json({success: true, message: "Courses fetched successfully", studentDetails: {
+            email: findStudent[0].email,
+            name: findStudent[0].name,
+            courses: getStudentCourses
+        }})
     } catch (error) {
         console.log(error);
         return NextResponse.json({

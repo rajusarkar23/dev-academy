@@ -6,12 +6,12 @@ const Profile = async () => {
 
   const data = await getProfileDetails()
 
-  console.log(data.student);
+  console.log(data.studentDetails);
   
 
   return (
     <div>
-      <ProfileComp />
+      <ProfileComp courses={data.studentDetails.courses} email={data.studentDetails.email} name={data.studentDetails.name}/>
     </div>
   )
 }
