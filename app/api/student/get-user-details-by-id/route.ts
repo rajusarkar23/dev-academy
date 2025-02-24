@@ -23,11 +23,16 @@ export async function POST(req: NextRequest) {
         const studentEnrollmentArr = findStudent[0].enrollments
         
 
-        const getStudentCourses = await db.select().from(Course).where(inArray(Course.id, studentEnrollmentArr))
+        const getStudentCourses = await db.select({courseName: Course.courseName, slug: Course.slug, courseShortDescription: Course.courseShortDescription, instructor: Course.courseInstrutor,startingDate: Course.courseStartDate, endDate: Course.courseEndDate, imageUrl: Course.courseImageURL }).from(Course).where(inArray(Course.id, studentEnrollmentArr))
 
         if (getStudentCourses.length === 0) {
             return NextResponse.json({message: "Student dont have any enrolled courses"})
         }
+
+        // console.log(getStudentCourses);
+        
+                
+        
         return NextResponse.json({success: true, message: "Courses fetched successfully", studentDetails: {
             email: findStudent[0].email,
             name: findStudent[0].name,
