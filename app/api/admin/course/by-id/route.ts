@@ -63,3 +63,26 @@ export async function PATCH(req: NextRequest) {
         return NextResponse.json({ success: false, message: "Something went wrong." })
     }
 }
+
+export async function DELETE(req: NextRequest){
+    const {id} = await req.json()
+
+
+    if (!id) {
+        return NextResponse.json({success: false, message: "Id is required to delete"})
+    }
+
+    try {
+        const deleteCourse = await db.delete(Course).where(eq(Course.id,id))
+
+        if (deleteCourse.length !== 0) {
+            return NextResponse.json({success: false, message: "Unable to delete this course"})
+        }
+        return NextResponse.json({success: true, message: "Deleted"})
+
+
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json({success: false, message: "Something went wrong"})        
+    }
+}
