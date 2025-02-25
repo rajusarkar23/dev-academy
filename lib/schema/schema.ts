@@ -16,6 +16,7 @@ export const Student = pgTable("student", {
 export const Admin = pgTable("admin", {
     id: serial("id").primaryKey(),
     email: text("email").notNull().unique(),
+    name: text("name"),
     password: text("password").notNull(),
     otp: text("otp").notNull(),
     isVerified: boolean("is_verified").notNull().default(false),
