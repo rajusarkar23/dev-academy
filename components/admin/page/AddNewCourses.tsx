@@ -35,7 +35,6 @@ export default function AddNewCourse() {
   console.log(name);
 
   const setSlug = async () => {
-    console.log("ran");
     const slug = await generateSlug(name);
     setValue("slug", slug);
   };

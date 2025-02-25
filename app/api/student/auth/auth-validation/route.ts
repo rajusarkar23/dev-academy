@@ -7,8 +7,6 @@ export async function POST(req: NextRequest) {
     const { studentId } = await req.json()
 
     try {
-        console.log("ran");
-        
         const findStudentById = await db.select().from(Student).where(eq(Student.id, studentId));
         if (findStudentById.length === 0) {
             return NextResponse.json({ authenticated: false })

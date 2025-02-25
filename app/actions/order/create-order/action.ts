@@ -9,8 +9,6 @@ export async function createOrder({ price, productId }: { price: string, product
      const cookie = (await cookies()).get("session")?.value;
     
         if (!cookie) {
-            console.log("ran");
-            
             return redirect("/auth/signin")
         }
     
@@ -20,8 +18,6 @@ export async function createOrder({ price, productId }: { price: string, product
         // console.log(userId);
     
         if (typeof userId === "undefined") {
-            console.log("ran123");
-            
             return
         }
 
