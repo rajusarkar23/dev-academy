@@ -54,8 +54,9 @@ export default function SigninComp() {
     return (
         <div className="flex flex-col justify-center items-center min-h-screen bg-blue-900/90" onSubmit={handleSubmit(onsubmit)}>
             <form className="max-w-sm w-full h-96 mx-auto bg-white/80 shadow-2xl rounded-lg flex flex-col justify-center items-center space-y-4 px-4">
-                <div>
-                    <h2>Signin</h2>
+            <div className="space-y-4">
+                    <h2 className="text-center font-bold text-4xl text-gray-700">Signin</h2>
+                    <p className="font-bold text-gray-500 text-sm">Welcome, please signin first.</p>
                 </div>
                 <div className="w-full space-y-4 px-4">
                     <div>

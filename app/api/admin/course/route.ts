@@ -68,7 +68,10 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-  const id = await adminSession();
+  const admin = await adminSession();
+  //@ts-expect-error, adminDetails available
+  const id = admin.adminDetails.id;
+
   if (typeof id !== "number") {
     return NextResponse.json({
       success: false,
