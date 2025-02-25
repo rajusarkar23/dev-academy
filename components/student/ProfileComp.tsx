@@ -1,7 +1,17 @@
 "use client";
 import { Accordion, AccordionItem } from "@heroui/accordion";
 import { Button } from "@heroui/button";
-import { Avatar, Chip } from "@heroui/react";
+import {
+  Avatar,
+  Chip,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@heroui/react";
 import { MoveRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,6 +35,12 @@ export default function ProfileComp({
   name: string;
   courses: courses[];
 }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleOpen = () => {
+    onOpen();
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex flex-col justify-center items-center">
       <div className="mb-4 flex flex-col justify-center space-y-2">
@@ -37,21 +53,52 @@ export default function ProfileComp({
         <p className="text-center font-bold">Hey, {name}</p>
       </div>
       <div className="flex flex-col space-y-2">
+        <div className="flex justify-center">
+          <Button
+            className="bg-gradient-to-br from-blue-950 to-orange-800 rounded-lg font-bold text-xl justify-center w-80 h-10 items-center flex shadow-md shadow-gray-800 text-white"
+            key={"3xl"}
+            onPress={() => handleOpen()}
+          >
+            Your personal details <MoveRight />
+          </Button>
+          <Modal isOpen={isOpen} size={"2xl"} onClose={onClose}>
+            <ModalContent>
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1 text-black">
+                    Your Email & Name.
+                  </ModalHeader>
+                  <ModalBody>
+                    <div className="flex justify-center">
+                      <Input type="text" defaultValue={name} className="w-64" />
+                    </div>
+                    <div className="flex justify-center">
+                      <Input
+                        type="text"
+                        defaultValue={email}
+                        className="w-64"
+                      />
+                    </div>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="danger" variant="light" onPress={onClose}>
+                      Close
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
+        </div>
         <Link
           className="bg-gradient-to-br from-blue-950 to-orange-800 rounded-lg font-bold text-xl justify-center w-80 h-10 items-center flex shadow-md shadow-gray-800"
-          href={"/profile/personal-details"}
-        >
-          Your personal details <MoveRight className="ml-2" />
-        </Link>
-        <Link
-          className="bg-gradient-to-br from-blue-950 to-orange-800 rounded-lg font-bold text-xl justify-center w-80 h-10 items-center flex shadow-md shadow-gray-800"
-          href={"/profile/personal-details"}
+          href={"/profile/password-change"}
         >
           Change/ Forgot password <MoveRight className="ml-2" />
         </Link>
         <Link
           className="bg-gradient-to-br from-blue-950 to-orange-800 rounded-lg font-bold text-xl justify-center w-80 h-10 items-center flex shadow-md shadow-gray-800"
-          href={"/profile/personal-details"}
+          href={"/profile/enrollments"}
         >
           Your enrollments <MoveRight className="ml-2" />
         </Link>

@@ -52,8 +52,8 @@ export default function SigninComp() {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center min-h-screen bg-blue-900/90" onSubmit={handleSubmit(onsubmit)}>
-            <form className="max-w-sm w-full h-96 mx-auto bg-white/80 shadow-2xl rounded-lg flex flex-col justify-center items-center space-y-4 px-4">
+        <div className="flex flex-col justify-center items-center min-h-screen bg-blue-900/90">
+            <form className="max-w-sm w-full h-96 mx-auto bg-white/80 shadow-2xl rounded-lg flex flex-col justify-center items-center space-y-4 px-4" onSubmit={handleSubmit(onsubmit)}>
                 <div className="flex flex-col justify-center items-center">
                     <h2 className="text-4xl font-bold text-black">Signin</h2>
                     <p className="text-gray-400 font-bold">to access your account</p>
