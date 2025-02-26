@@ -1,16 +1,16 @@
-import Navbar from "@/components/admin/page/Navbar"
-import "./dashboard.css"
-
+import Navbar from "@/components/admin/page/Navbar";
+import "./dashboard.css";
+import SideBar from "@/components/admin/page/SideBar";
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <div>
-      <Navbar />
-      {children}
+    <div className="flex">
+      <SideBar />
+      <div className="flex-1 p-8">{children}</div>
     </div>
-  )
+  );
 }
