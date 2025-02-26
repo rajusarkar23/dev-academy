@@ -77,12 +77,7 @@ export default function CoursesBySlug() {
     }, [])
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950">
-            {/* <div>
-                {
-                    loading ? (<Skeleton className="bg-blue-300/30"><p>Loading</p></Skeleton>) : (<h1>dvkjb</h1>)
-                }
-
-            </div> */}
+        
             {
                 course.map((item) => (
                     <div className="sm:flex sm:justify-between space-x-2 p-4 mx-auto max-w-4xl" key={item.id}>
@@ -115,9 +110,6 @@ export default function CoursesBySlug() {
                                 <Image src={item.courseImageURL} alt={item.courseName} height={400} width={400} className="p-4" />
                                 <p className="text-2xl font-bold text-white/80">{item.courseName}@{item.coursePrice}</p>
                                 <div className="px-4 w-full mb-4 mt-4">
-                                    {/* <PlaceOrderBtn price={item.coursePrice} product={item.id} />
-                                     */}
-
                                     <Button onPress={handlePress}>Get access</Button>
                                 </div>
 

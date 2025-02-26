@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import RichTextEditor from "./RichTextEditor";
 import generateSlug from "@/lib/generate-slug";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   courseName: string;
@@ -24,6 +25,9 @@ type Inputs = {
 };
 
 export default function AddNewCourse() {
+
+  const router = useRouter()
+
   const {
     register,
     setValue,
@@ -46,8 +50,6 @@ export default function AddNewCourse() {
   }, [courseDescription]);
 
   const onsubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
-    // return
 
     try {
       const res = await fetch("/api/admin/course", {
@@ -58,7 +60,11 @@ export default function AddNewCourse() {
         body: JSON.stringify(data),
       });
 
-      console.log(await res.json());
+      const response = await res.json()
+      if (response.success === true) {
+        router.push("/admin/dashboard/all-courses")
+      }
+
     } catch (error) {
       console.log(error);
     }

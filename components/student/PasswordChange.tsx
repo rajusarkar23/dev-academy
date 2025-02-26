@@ -1,5 +1,6 @@
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
+import Link from "next/link";
 
 export default function PasswordChangeComp() {
   return (
@@ -22,7 +23,7 @@ export default function PasswordChangeComp() {
             <Button color="primary">Change Password</Button>
 
             <div className="flex justify-center font-bold text-blue-500">
-              <h2>Forgot password?</h2>
+              <Link href={"/profile/forgot-password"}>Forgot password?</Link>
             </div>
           </div>
         </div>

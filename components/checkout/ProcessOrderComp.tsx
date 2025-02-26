@@ -2,8 +2,15 @@
 import { Button } from "@heroui/button"
 import { ArrowRight, CheckCircle } from "lucide-react"
 import { motion } from "motion/react"
+import { useRouter } from "next/navigation"
 
 export default function ProcessOrderComp() {
+
+    const router = useRouter()
+
+    const handleRedirect = () => {
+        router.push("/profile/enrollments")
+    }
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center px-6">
             <motion.div
@@ -40,7 +47,7 @@ export default function ProcessOrderComp() {
                 </motion.p>
 
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="flex justify-center">
-                    <Button className="w-full" color="primary">Go to profile <ArrowRight size={20}/></Button>
+                    <Button className="w-full" color="primary"onPress={handleRedirect}>Go to profile <ArrowRight size={20}/></Button>
                 </motion.div>
             </motion.div>
         </div>
