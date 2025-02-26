@@ -55,13 +55,13 @@ export default function ProfileComp({
       <div className="flex flex-col space-y-2">
         <div className="flex justify-center">
           <Button
-            className="bg-gradient-to-br from-blue-950 to-orange-800 rounded-lg font-bold text-xl justify-center w-80 h-10 items-center flex shadow-md shadow-gray-800 text-white"
+            className="bg-blue-500 rounded-lg font-bold text-xl justify-center w-80 h-10 items-center flex shadow-md shadow-gray-800 text-white"
             key={"3xl"}
             onPress={() => handleOpen()}
           >
             Your personal details <MoveRight />
           </Button>
-          <Modal isOpen={isOpen} size={"2xl"} onClose={onClose}>
+          <Modal isOpen={isOpen} size={"2xl"} onClose={onClose} backdrop="blur">
             <ModalContent>
               {(onClose) => (
                 <>
@@ -70,12 +70,13 @@ export default function ProfileComp({
                   </ModalHeader>
                   <ModalBody>
                     <div className="flex justify-center">
-                      <Input type="text" defaultValue={name} className="w-64" />
+                      <Input type="text" defaultValue={name} color="primary" className="w-64" />
                     </div>
                     <div className="flex justify-center">
                       <Input
                         type="text"
                         defaultValue={email}
+                        color="primary"
                         className="w-64"
                       />
                     </div>
@@ -91,13 +92,13 @@ export default function ProfileComp({
           </Modal>
         </div>
         <Link
-          className="bg-gradient-to-br from-blue-950 to-orange-800 rounded-lg font-bold text-xl justify-center w-80 h-10 items-center flex shadow-md shadow-gray-800"
+          className="bg-blue-500 rounded-lg font-bold text-xl justify-center w-80 h-10 items-center flex shadow-md shadow-gray-800"
           href={"/profile/password-change"}
         >
           Change/ Forgot password <MoveRight className="ml-2" />
         </Link>
         <Link
-          className="bg-gradient-to-br from-blue-950 to-orange-800 rounded-lg font-bold text-xl justify-center w-80 h-10 items-center flex shadow-md shadow-gray-800"
+          className="bg-blue-500 rounded-lg font-bold text-xl justify-center w-80 h-10 items-center flex shadow-md shadow-gray-800"
           href={"/profile/enrollments"}
         >
           Your enrollments <MoveRight className="ml-2" />

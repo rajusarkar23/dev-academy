@@ -15,7 +15,12 @@ interface courses {
 export default function EnrollmentsComp({ enrolled }: { enrolled: courses[] }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950 px-4 py-10">
-      <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="flex justify-center mb-16">
+        <h2 className="text-3xl font-bold">
+            Your enrollments
+        </h2>
+      </div>
+      <div className="mx-auto w-full max-w-4xl grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {enrolled.map((items) => (
           <div className="bg-white/80 rounded">
             <div className="p-4">
