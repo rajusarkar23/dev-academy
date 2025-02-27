@@ -20,7 +20,7 @@ export async function fetchDetailsForOrder(){
     
     const productUUID = (await cookies()).get("uupid")?.value
 
-    const res = await fetch("http://localhost:3000/api/checkout/fetch-product-and-user", {
+    const res = await fetch(`${process.env.PORT}/api/checkout/fetch-product-and-user`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

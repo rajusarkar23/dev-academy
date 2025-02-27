@@ -13,7 +13,7 @@ export async function authValidate() {
         //@ts-expect-error, student id is there
         const userId = verify.studentId
 
-        const getUserLogin = await fetch("http://localhost:3000/api/student/auth/auth-validation", {
+        const getUserLogin = await fetch(`${process.env.PORT}/api/student/auth/auth-validation`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

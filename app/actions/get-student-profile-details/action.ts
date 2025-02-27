@@ -14,7 +14,7 @@ export async function getProfileDetails(){
         //@ts-expect-error, studentId available
         const studentId = verify.studentId
 
-        const get = await fetch("http://localhost:3000/api/student/get-user-details-by-id", {
+        const get = await fetch(`${process.env.PORT}/api/student/get-user-details-by-id`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
