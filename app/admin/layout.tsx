@@ -1,4 +1,4 @@
-import Navbar from "@/components/admin/page/Navbar";
+import TopLoader from "@/components/TopLoader";
 import "./dashboard.css";
 import SideBar from "@/components/admin/page/SideBar";
 
