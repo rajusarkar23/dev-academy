@@ -2,6 +2,7 @@
 
 import { deleteCourse } from "@/app/actions/delete-course/action";
 import { Button } from "@heroui/button";
+import { Chip } from "@heroui/react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -17,6 +18,7 @@ interface Course {
   courseShortDescription: string;
   courseStartDate: string;
   courseVideoURL: string;
+  coursePrice: string;
   createdBy: string;
   id: string;
   studentCapacity: string;
@@ -58,43 +60,55 @@ export default function SingleCourse() {
   };
 
   const handleDelete = async () => {
-    await deleteCourse(Number(id));
+    const data = await deleteCourse(Number(id));
+    if (data.success === true) {
+      router.push("/admin/dashboard/all-courses")
+    }
+    
   };
+
   return (
-    <div className="my-10">
+    <div>
       {course.map((items) => (
         <div key={items.id}>
-          <div className="flex flex-col justify-between items-center">
-            <div>
-              <p>{items.courseName}</p>
-              <p>{items.courseShortDescription}</p>
-            </div>
-            <div>
+          <div className="flex space-x-4">
+            <div className="space-y-2">
               <Image
                 src={items.courseImageURL}
                 alt={items.courseName}
-                height={400}
-                width={400}
-                className="border rounded-lg"
+                width={500}
+                height={500}
+                className="rounded border"
               />
+              <div className="flex justify-center gap-4">
+                <Button className="w-full font-bold" color="danger" onPress={handleDelete}>Delete</Button>
+                <Button className="w-full font-bold" color="success" onPress={handleEditButtonClick}>Edit</Button>
+              </div>
             </div>
-            <div className="flex justify-center space-x-4">
-              <Button
-                color="primary"
-                className="font-bold"
-                type="button"
-                onPress={handleEditButtonClick}
-              >
-                Edit
-              </Button>
-              <Button
-                color="danger"
-                className="font-bold"
-                type="button"
-                onPress={handleDelete}
-              >
-                Delete
-              </Button>
+
+            <div>
+              <div className="mx-auto max-w-xl space-y-2">
+                <h2 className="text-3xl font-bold">{items.courseName}</h2>
+                <h3><span className="text-gray-300 font-bold">Heading: </span> {items.courseHeading}</h3>
+                <div className="space-x-1">
+                  <Chip><p className="font-bold">Price: {items.coursePrice}</p></Chip>
+                  <Chip><p className="font-bold">Start: {items.courseStartDate}</p></Chip>
+                  <Chip><p className="font-bold">End: {items.courseEndDate}</p></Chip>
+                </div>
+                <p><span className="text-gray-300 font-bold">Short description: </span>{items.courseShortDescription}</p>
+                <p><span className="text-gray-300 font-bold">Description: </span>
+                <div
+                  className=" [&>ul]:list-disc [&>ul]:pl-6 max-w-[700px]"
+                  dangerouslySetInnerHTML={{
+                    __html: items.courseDescription.replace(
+                      /<p>\s*<\/p>/g,
+                      "<br>"
+                    ),
+                  }}
+                />
+              
+                </p>
+              </div>
             </div>
           </div>
         </div>
