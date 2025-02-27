@@ -11,10 +11,6 @@ export default function Navbar() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-  };
-
   useEffect(() => {
     if (isOpen) {
         setIsOpen(false)
