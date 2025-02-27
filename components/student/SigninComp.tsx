@@ -38,7 +38,7 @@ export default function SigninComp() {
 
             if (response.success === true) {
                 setLoading(false)
-                router.push("/profile")
+                router.replace("/profile")
             } else {
                 setLoading(false)
                 setError(true)
