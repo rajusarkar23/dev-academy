@@ -25,7 +25,7 @@ export async function authValidate() {
         return data;
     } catch (error) {
         console.log(error);
-        let data = { authenticated: false }
+        const data = { authenticated: false }
         return data;
     }
 

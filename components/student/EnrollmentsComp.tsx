@@ -1,5 +1,5 @@
 import { Button, Chip } from "@heroui/react";
-import { Pen, Timer, UserPen } from "lucide-react";
+import { UserPen } from "lucide-react";
 import Image from "next/image";
 
 interface courses {
@@ -21,8 +21,8 @@ export default function EnrollmentsComp({ enrolled }: { enrolled: courses[] }) {
         </h2>
       </div>
       <div className="mx-auto w-full max-w-4xl grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {enrolled.map((items) => (
-          <div className="bg-white/80 rounded">
+        {enrolled.map((items, index) => (
+          <div className="bg-white/80 rounded" key={index}>
             <div className="p-4">
               <Image
                 src={items.imageUrl}

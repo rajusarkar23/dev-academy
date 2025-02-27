@@ -1,4 +1,3 @@
-import TopLoader from "@/components/TopLoader";
 import "./dashboard.css";
 import SideBar from "@/components/admin/page/SideBar";
 

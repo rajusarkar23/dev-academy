@@ -12,13 +12,6 @@ export default function Navbar() {
     const path = usePathname()
 
     const dashboardURl = "/admin/dashboard"
-    const addNewUrl = "/admin/dashboard/add-new"
-    const allCoursesUrl = "/admin/dashboard/all-courses"
-
-    
-    
-       
-    
     
     return (
         <div className="bg-black h-12 shadow-sm shadow-blue-400/50">

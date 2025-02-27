@@ -1,9 +1,7 @@
 "use client";
-import { Accordion, AccordionItem } from "@heroui/accordion";
-import { Button } from "@heroui/button";
 import {
+  Button,
   Avatar,
-  Chip,
   Input,
   Modal,
   ModalBody,
@@ -13,7 +11,6 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { MoveRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 interface courses {
@@ -29,7 +26,6 @@ interface courses {
 export default function ProfileComp({
   email,
   name,
-  courses,
 }: {
   email: string;
   name: string;
