@@ -28,7 +28,6 @@ export async function POST(req: NextRequest) {
             }).where(eq(Order.uniqueOrderIdentifier, orderUniqueId))
 
             const getFullOrder = await db.select().from(Order).where(eq(Order.uniqueOrderIdentifier, orderUniqueId))
-            getFullOrder[0].courseId
             const getCourse = await db.select().from(Course).where(eq(Course.id, getFullOrder[0].courseId))
             const courseId = getCourse[0].id
             await db.update(Course).set({
