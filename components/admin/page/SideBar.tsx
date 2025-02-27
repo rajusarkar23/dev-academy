@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 
 export default function SideBar() {
   const pathname = usePathname()
-  console.log(pathname);
 
   const dashboardUrl = "/admin/dashboard"
   const addNewCourseUrl = "/admin/dashboard/add-new"
