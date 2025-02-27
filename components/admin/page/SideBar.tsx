@@ -14,7 +14,7 @@ export default function SideBar() {
   return (
     <div className="w-60 bg-zinc-800 min-h-screen text-white p-4">
       <Link href={"/admin/dashboard"} className="text-2xl font-bold">
-        Admin Dashboard
+      Admin Dashboard
       </Link>
 
       <div className="mt-10 flex flex-col justify-center">
