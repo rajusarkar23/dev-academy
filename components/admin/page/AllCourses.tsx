@@ -46,7 +46,7 @@ export default function AllCoursesComp() {
     getAllCourses();
   }, []);
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4 mx-auto max-w-5xl">
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4 mx-auto max-w-5xl p-6">
       {courses.map((items) => (
         <div
           key={items.id}
