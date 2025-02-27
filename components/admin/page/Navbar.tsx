@@ -5,16 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-    // admin/dashboard
-    // admin/dashboard/add-new
-    // admin/dashboard/all-courses
 
     const path = usePathname()
 
     const dashboardURl = "/admin/dashboard"
     
     return (
-        <div className="bg-black h-12 shadow-sm shadow-blue-400/50">
+        <div className="bg-black h-12 shadow-sm shadow-blue-400/50 w-full">
             <nav className="flex justify-between items-center max-w-6xl mx-auto px-4">
                 <div className="flex space-x-4 justify-center items-center mt-2">
                     <Link className="flex text-2xl items-center" href={"/admin/dashboard"}><Code className="mr-1 mt-0.5" /> Admin panel</Link>

@@ -96,7 +96,7 @@ export default function SingleCourse() {
                   <Chip><p className="font-bold">End: {items.courseEndDate}</p></Chip>
                 </div>
                 <p><span className="text-gray-300 font-bold">Short description: </span>{items.courseShortDescription}</p>
-                <p><span className="text-gray-300 font-bold">Description: </span>
+                <div><span className="text-gray-300 font-bold">Description: </span>
                 <div
                   className=" [&>ul]:list-disc [&>ul]:pl-6 max-w-[700px]"
                   dangerouslySetInnerHTML={{
@@ -107,7 +107,7 @@ export default function SingleCourse() {
                   }}
                 />
               
-                </p>
+                </div>
               </div>
             </div>
           </div>
