@@ -24,7 +24,7 @@ export async function createOrder({ price, productId }: { price: string, product
         }
 
 
-    const res = await fetch(`${process.env.PORT}/api/checkout/create-order`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/checkout/create-order`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

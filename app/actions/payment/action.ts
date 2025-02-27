@@ -21,7 +21,7 @@ export async function processOrder() {
     const orderUniqueId = verify.orderUniqueId;
 
 
-    const res = await fetch(`${process.env.PORT}/api/checkout/status`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/checkout/status`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

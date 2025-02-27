@@ -4,7 +4,7 @@
 
 export async function deleteCourse(id: number) {
   try {
-    const res = await fetch(`${process.env.PORT}/api/admin/course/by-id`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/course/by-id`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
