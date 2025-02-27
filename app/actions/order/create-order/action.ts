@@ -9,6 +9,8 @@ export async function createOrder({ price, productId }: { price: string, product
      const cookie = (await cookies()).get("session")?.value;
     
         if (!cookie) {
+            console.log("no cookie");
+            
             return redirect("/auth/signin")
         }
     

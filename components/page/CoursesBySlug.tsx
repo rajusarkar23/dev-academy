@@ -60,6 +60,8 @@ export default function CoursesBySlug() {
   };
 
   const handlePress = async () => {
+    console.log("ran");
+    
     const order = await createOrder({
       price: course[0].coursePrice,
       productId: course[0].id,
