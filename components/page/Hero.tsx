@@ -6,7 +6,7 @@ export default function Hero() {
         <div className="background-hero">
             <div className="max-w-6xl">
                 <div className="flex justify-center">
-                    <Link href={"/admin/auth/signup"} className="flex items-center bg-blue-400/40 px-3 py-2 shadow-md mb-1 rounded-full font-bold text-sm hover:scale-105 transition-all border border-green-300/70">Join this bootcamp <CircleArrowRight size={20} className="ml-2" /></Link>
+                    <Link href={"/"} className="flex items-center bg-blue-400/40 px-3 py-2 shadow-md mb-1 rounded-full font-bold text-sm hover:scale-105 transition-all border border-green-300/70">Join this bootcamp <CircleArrowRight size={20} className="ml-2" /></Link>
                 </div>
                 <h1 className="text-6xl text-center ">Master your full-stack web development skills with this bootcamp.</h1>
                 <p className="text-center">We will teach here evrything, that make you a good developer. This bootcamp include Recat, Next.js, Node.js, Databases like MongoDB/PostgreSQL</p>

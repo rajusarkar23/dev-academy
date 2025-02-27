@@ -74,7 +74,7 @@ export default function SigninComp() {
                         {error && <p className="text-center mt-2 text-red-500 font-bold">{errorMessage}</p>}
                     </div>
                     <div>
-                        <p className="text-center font-semibold text-gray-600">Do not have account? <Link href={"/admin/auth/signup"} className="text-blue-600 underline">Signup</Link></p>
+                        <p className="text-center font-semibold text-gray-600">Do not have account? <Link href={"/admin-auth/signup"} className="text-blue-600 underline">Signup</Link></p>
                     </div>
                 </div>
             </form>

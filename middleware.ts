@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
   // Check for admin routes
   if (pathname.startsWith('/admin')) {
     if (!a_session) {
-      return NextResponse.redirect(new URL("/admin/auth/signin", request.url));
+      return NextResponse.redirect(new URL("/admin-auth/signin", request.url));
     }
   } else {
     // Check for regular routes
