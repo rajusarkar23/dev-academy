@@ -26,7 +26,11 @@ export async function POST(req: NextRequest) {
         const getStudentCourses = await db.select({courseName: Course.courseName, slug: Course.slug, courseShortDescription: Course.courseShortDescription, instructor: Course.courseInstrutor,startingDate: Course.courseStartDate, endDate: Course.courseEndDate, imageUrl: Course.courseImageURL }).from(Course).where(inArray(Course.id, studentEnrollmentArr))
 
         if (getStudentCourses.length === 0) {
-            return NextResponse.json({message: "Student dont have any enrolled courses"})
+            return NextResponse.json({success: true, message: "Courses fetched successfully", studentDetails: {
+                email: findStudent[0].email,
+                name: findStudent[0].name,
+                courses: []
+            }})
         }
 
         // console.log(getStudentCourses);

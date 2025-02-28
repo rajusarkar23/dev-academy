@@ -56,7 +56,7 @@ export default function AllCoursesComp() {
             <Image
               src={items.courseImageURL}
               alt={items.courseName}
-              width={400}
+              width={600}
               height={400}
               className="rounded"
             />
