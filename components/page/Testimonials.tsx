@@ -14,18 +14,18 @@ export default function Testimonials() {
               Speechless with how easy this was to integrate
             </h3>
             <p className="my-4">
-              "I recently got my hands on Flowbite Pro, and holy crap, I'm
+              I recently got my hands on Flowbite Pro, and holy crap, I am
               speechless with how easy this was to integrate within my
               application. Most templates are a pain, code is scattered, and
               near impossible to theme.
             </p>
             <p className="my-4">
-              Flowbite has code in one place and I'm not joking when I say it
+              Flowbite has code in one place and I am not joking when I say it
               took me a matter of minutes to copy the code, customise it and
               integrate within a Laravel + Vue application.
             </p>
             <p className="my-4">
-              If you care for your time, I hands down would go with this."
+              If you care for your time, I hands down would go with this.
             </p>
           </blockquote>
           <figcaption className="flex justify-center items-center space-x-3">
@@ -48,7 +48,7 @@ export default function Testimonials() {
               Solid foundation for any project
             </h3>
             <p className="my-4">
-              "FlowBite provides a robust set of design tokens and components
+              FlowBite provides a robust set of design tokens and components
               based on the popular Tailwind CSS framework. From the most used UI
               components like forms and navigation bars to the whole app screens
               designed both for desktop and mobile, this UI kit provides a solid
@@ -56,7 +56,7 @@ export default function Testimonials() {
             </p>
             <p className="my-4">
               Designing with Figma components that can be easily translated to
-              the utility classes of Tailwind CSS is a huge timesaver!"
+              the utility classes of Tailwind CSS is a huge timesaver!
             </p>
           </blockquote>
           <figcaption className="flex justify-center items-center space-x-3">
@@ -79,17 +79,17 @@ export default function Testimonials() {
               Mindblowing workflow and variants
             </h3>
             <p className="my-4">
-              "As someone who mainly designs in the browser, I've been a casual
+              As someone who mainly designs in the browser, I have been a casual
               user of Figma, but as soon as I saw and started playing with
               FlowBite my mind was 🤯.
             </p>
             <p className="my-4">
-              Everything is so well structured and simple to use (I've learnt so
+              Everything is so well structured and simple to use (I have learnt so
               much about Figma by just using the toolkit).
             </p>
             <p className="my-4">
               Aesthetically, the well designed components are beautiful and will
-              undoubtedly level up your next application."
+              undoubtedly level up your next application.
             </p>
           </blockquote>
           <figcaption className="flex justify-center items-center space-x-3">
@@ -112,13 +112,13 @@ export default function Testimonials() {
               Efficient Collaborating
             </h3>
             <p className="my-4">
-              "This is a very complex and beautiful set of elements. Under the
+              This is a very complex and beautiful set of elements. Under the
               hood it comes with the best things from 2 different worlds: Figma
               and Tailwind.
             </p>
             <p className="my-4">
               You have many examples that can be used to create a fast prototype
-              for your team."
+              for your team.
             </p>
           </blockquote>
           <figcaption className="flex justify-center items-center space-x-3">
