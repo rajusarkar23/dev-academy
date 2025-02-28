@@ -3,7 +3,7 @@
 import { deleteCourse } from "@/app/actions/delete-course/action";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

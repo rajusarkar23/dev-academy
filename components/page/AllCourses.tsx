@@ -1,6 +1,6 @@
 "use client"
 import { ChevronLeft, ChevronRight, User, UserPen } from "lucide-react"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import { Navigation } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import type { Swiper as SwiperType } from "swiper"

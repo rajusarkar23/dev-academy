@@ -2,7 +2,7 @@
 
 import { Chip } from "@heroui/chip";
 import { CalendarCheck, Clock, UserPen } from "lucide-react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@heroui/skeleton";

@@ -1,6 +1,6 @@
 import { Button, Chip } from "@heroui/react";
 import { UserPen } from "lucide-react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 interface courses {
   courseName: string;
