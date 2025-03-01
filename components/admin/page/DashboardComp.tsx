@@ -3,23 +3,22 @@
 import { useEffect, useState } from "react";
 
 interface enrolled {
-    courseId: number,
-    studentId: number,
-    orderPlace: boolean
+  courseId: number;
+  studentId: number;
+  orderPlace: boolean;
 }
 
 export default function DashboradComp() {
   const [student, setStudent] = useState([]);
   const [enrolled, setEnrolled] = useState<enrolled[]>([]);
 
-  const enrollments = enrolled.filter(function(items){
-    return items.orderPlace === true
-  })
+  const enrollments = enrolled.filter(function (items) {
+    return items.orderPlace === true;
+  });
 
-  const failedEnrollments = enrolled.filter(function(items){
-    return items.orderPlace === false
-  })
-  
+  const failedEnrollments = enrolled.filter(function (items) {
+    return items.orderPlace === false;
+  });
 
   const getAllStudents = async () => {
     try {
@@ -44,15 +43,13 @@ export default function DashboradComp() {
     getAllStudents();
   }, []);
 
-
-
   return (
-<div>
-    <div>
-        <p>Total Students: {student.length}</p>
-        <p>Total Enrollments: {enrollments.length}</p>
-        <p>Total failed Enrollments: {failedEnrollments.length}</p>
+    <div className="mt-8">
+      <div className="flex space-x-5">
+        <p className="bg-black p-4 rounded text-2xl font-bold hover:scale-95 transition-all">Total Students: {student.length}</p>
+        <p className="bg-black p-4 rounded text-2xl font-bold hover:scale-95 transition-all">Total Enrollments: {enrollments.length}</p>
+        <p className="bg-black p-4 rounded text-2xl font-bold hover:scale-95 transition-all">Total failed Enrollments: {failedEnrollments.length}</p>
+      </div>
     </div>
-</div>  
-)
+  );
 }
