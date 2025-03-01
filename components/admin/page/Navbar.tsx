@@ -20,8 +20,8 @@ export default function Navbar() {
   return (
     <div className="container mx-auto px-4 border-b-small border-white/50">
       <div className="flex items-center justify-between h-16">
-        <Link href="/" className="flex items-center space-x-2">
-          <span className="text-xl font-bold">Dev Academy</span>
+        <Link href="/admin/dashboard" className="flex items-center space-x-2">
+          <span className="text-xl font-bold">Admin Dashboard</span>
         </Link>
 
         <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
