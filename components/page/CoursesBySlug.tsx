@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "@heroui/skeleton";
 import { Button } from "@heroui/button";
 import { createOrder } from "@/app/actions/order/create-order/action";
+import { Spinner } from "@heroui/spinner";
 
 interface course {
   courseDescription: string;
@@ -30,6 +31,7 @@ interface course {
 export default function CoursesBySlug() {
   const [course, setCourse] = useState<course[]>([]);
   const [loading, setLoading] = useState(false);
+  const [orderClicked, setOrderClicked] = useState(false)
 
   const slug = useParams().slug;
 
@@ -60,29 +62,26 @@ export default function CoursesBySlug() {
   };
 
   const handlePress = async () => {
-    console.log("ran");
-    
+    setOrderClicked(true);
     const order = await createOrder({
       price: course[0].coursePrice,
       productId: course[0].id,
     });
-    console.log(order);
   };
 
   useEffect(() => {
     getCourseById();
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
   }, []);
 
-
   if (loading) {
-    return(
+    return (
       <div>
         <div className="flex justify-center items-center min-h-screen py-5">
-          <LoaderCircle className="animate-spinner-ease-spin" size={50}/>
+          <LoaderCircle className="animate-spinner-ease-spin" size={50} />
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -106,12 +105,35 @@ export default function CoursesBySlug() {
                 <div className="bg-white px-2 rounded">
                   <div>
                     <div className="p-2 space-y-2">
-                        <p className="text-black text-xl font-bold">Course name: <span className="text-blue-500">{item.courseName}</span></p>
-                        <p className="text-black text-xl font-bold">Course fees:  <span className="text-blue-500">INR {item.coursePrice}</span></p>
-                        <p className="text-black text-xl font-bold">Available seats: <span className="text-red-500">{item.studentCapacity}</span></p>
-                      <Button className="w-full font-bold" color="primary" onPress={handlePress}>
-                        Book your seat
-                      </Button>
+                      <p className="text-black text-xl font-bold">
+                        Course name:{" "}
+                        <span className="text-blue-500">{item.courseName}</span>
+                      </p>
+                      <p className="text-black text-xl font-bold">
+                        Course fees:{" "}
+                        <span className="text-blue-500">
+                          INR {item.coursePrice}
+                        </span>
+                      </p>
+                      <p className="text-black text-xl font-bold">
+                        Available seats:{" "}
+                        <span className="text-red-500">
+                          {item.studentCapacity}
+                        </span>
+                      </p>
+                      {orderClicked ? (
+                        <Button disabled className="w-full">
+                          <Spinner />
+                        </Button>
+                      ) : (
+                        <Button
+                          className="w-full font-bold"
+                          color="primary"
+                          onPress={handlePress}
+                        >
+                          Book your seat
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </div>
