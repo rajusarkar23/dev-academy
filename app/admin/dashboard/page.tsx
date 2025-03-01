@@ -1,9 +1,11 @@
-import React from 'react'
+import DashboradComp from "@/components/admin/page/DashboardComp";
 
 const Dashboard = () => {
-    return (
-        <div>Dashboard</div>
-    )
-}
+  return (
+    <div>
+      <DashboradComp />
+    </div>
+  );
+};
 
-export default Dashboard
+export default Dashboard;
