@@ -1,5 +1,5 @@
 "use client";
-import { ChevronLeft, ChevronRight, User, UserPen } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader, LoaderCircle, User, UserPen } from "lucide-react";
 import Image from "next/legacy/image";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -21,8 +21,10 @@ export default function AllCourses() {
   const swiperRef = useRef<SwiperType>();
 
   const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(false)
 
   const getCourses = async () => {
+    setLoading(true)
     try {
       const res = await fetch("/api/page/courses", {
         method: "GET",
@@ -32,8 +34,10 @@ export default function AllCourses() {
 
       if (response.success === true) {
         setCourses(response.courses);
+        setLoading(false)
       } else {
         console.log(response);
+        setLoading(false)
       }
     } catch (error) {
       console.log(error);
@@ -43,6 +47,18 @@ export default function AllCourses() {
   useEffect(() => {
     getCourses();
   }, []);
+
+
+  if (loading) {
+    return(
+      <div>
+        <div className="flex justify-center py-5">
+          <Loader className="animate-spinner-ease-spin" size={50}/>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="p-4">
       <div className="mx-auto max-w-7xl space-y-3">
