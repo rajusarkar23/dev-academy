@@ -2,7 +2,7 @@
 
 import { deleteCourse } from "@/app/actions/delete-course/action";
 import { Button } from "@heroui/button";
-import { Chip, Input } from "@heroui/react";
+import { Chip, Input, Spinner } from "@heroui/react";
 import Image from "next/legacy/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -28,11 +28,13 @@ interface Course {
 
 export default function SingleCourse() {
   const [course, setCourse] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(false)
   const router = useRouter();
 
   const id = useParams().id;
   const getCourseById = async () => {
     try {
+      setLoading(true)
       const res = await fetch("/api/admin/course/by-id", {
         method: "POST",
         headers: {
@@ -45,11 +47,14 @@ export default function SingleCourse() {
 
       if (response.success === true) {
         setCourse(response.course);
+        setLoading(false)
       } else {
         console.log(response);
+        setLoading(false)
       }
     } catch (error) {
       console.log(error);
+      setLoading(false)
     }
   };
 
@@ -67,6 +72,17 @@ export default function SingleCourse() {
       router.push("/admin/dashboard/all-courses");
     }
   };
+
+
+  if (loading) {
+    return(
+      <div className="flex justify-center items-center min-h-screen">
+        <div>
+          <Spinner size="lg" color="white"/>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="py-4">
@@ -115,7 +131,7 @@ export default function SingleCourse() {
 
                   <ReactPlayer
                     url="https://pub-367a5b1b28f9415dae5b51f69d042dff.r2.dev/18872865-hd_1920_1080_30fps.mp4" // Change this to your MKV file URL
-                    playing={true}
+                    playing={false}
                     controls
                     width="700px"
                     height="500px"
@@ -144,7 +160,7 @@ export default function SingleCourse() {
                 </div>
                 <p>
                   <span className="text-gray-300 font-bold">
-                    Short description:{" "}
+                    Short description:
                   </span>
                   {items.courseShortDescription}
                 </p>
