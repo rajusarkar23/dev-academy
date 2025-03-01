@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import RichTextEditor from "./RichTextEditor";
 import generateSlug from "@/lib/generate-slug";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@heroui/spinner";
 
 type Inputs = {
   courseName: string;
@@ -25,8 +26,7 @@ type Inputs = {
 };
 
 export default function AddNewCourse() {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const {
     register,
@@ -36,7 +36,8 @@ export default function AddNewCourse() {
   } = useForm<Inputs>();
   const [courseDescription, setCourseDescription] = useState("");
   const [name, setName] = useState("");
-  console.log(name);
+
+  const [loading, setLoading] = useState(false);
 
   const setSlug = async () => {
     const slug = await generateSlug(name);
@@ -50,8 +51,8 @@ export default function AddNewCourse() {
   }, [courseDescription]);
 
   const onsubmit: SubmitHandler<Inputs> = async (data) => {
-
     try {
+      setLoading(true);
       const res = await fetch("/api/admin/course", {
         method: "POST",
         headers: {
@@ -60,13 +61,17 @@ export default function AddNewCourse() {
         body: JSON.stringify(data),
       });
 
-      const response = await res.json()
+      const response = await res.json();
       if (response.success === true) {
-        router.push("/admin/dashboard/all-courses")
+        setLoading(false);
+        router.push("/admin/dashboard/all-courses");
+      } else {
+        console.log(response);
+        setLoading(false);
       }
-
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -305,9 +310,15 @@ export default function AddNewCourse() {
         </div>
 
         <div className="flex justify-center w-full">
-          <Button type="submit" color="primary" className="font-bold w-full">
-            Submit
-          </Button>
+          {loading ? (
+            <Button className="w-full" disabled>
+              <Spinner />
+            </Button>
+          ) : (
+            <Button type="submit" color="primary" className="font-bold w-full">
+              Submit
+            </Button>
+          )}
         </div>
       </form>
     </div>
