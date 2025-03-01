@@ -133,8 +133,8 @@ export default function SingleCourse() {
                     url="https://pub-367a5b1b28f9415dae5b51f69d042dff.r2.dev/18872865-hd_1920_1080_30fps.mp4" // Change this to your MKV file URL
                     playing={false}
                     controls
-                    width="700px"
-                    height="500px"
+                    width="400px"
+                    height="250px"
                   />
                 </div>
               </div>
