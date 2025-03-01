@@ -1,6 +1,6 @@
 "use client";
 
-import { Chip } from "@heroui/react";
+import { Chip, Spinner } from "@heroui/react";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -23,10 +23,12 @@ interface course {
 
 export default function AllCoursesComp() {
   const [courses, setCourses] = useState<course[]>([]);
+  const [loading, setLoading] = useState(false)
 
   
 
   const getAllCourses = async () => {
+    setLoading(true)
     try {
       const res = await fetch("/api/admin/course", {
         method: "GET",
@@ -35,16 +37,29 @@ export default function AllCoursesComp() {
       const response = await res.json();
       if (response.success === true) {
         setCourses(response.courses);
+        setLoading(false)
       } else {
         console.log(response);
+        setLoading(false)
       }
     } catch (error) {
       console.log(error);
+      setLoading(false)
     }
   };
   useEffect(() => {
     getAllCourses();
   }, []);
+
+  if (loading) {
+    return(
+      <div className="flex justify-center items-center min-h-screen">
+        <div>
+          <Spinner size="lg" color="white"/>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4 mx-auto max-w-5xl p-6">
       {courses.map((items) => (
