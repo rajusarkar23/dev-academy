@@ -63,7 +63,7 @@ export default function CoursesBySlug() {
 
   const handlePress = async () => {
     setOrderClicked(true);
-    const order = await createOrder({
+      await createOrder({
       price: course[0].coursePrice,
       productId: course[0].id,
     });
