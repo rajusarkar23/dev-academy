@@ -9,7 +9,6 @@ import "swiper/css/effect-fade";
 import Link from "next/link";
 
 export default function Courses() {
-  // fetch courses by slug
 
   const courses = [
     {

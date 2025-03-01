@@ -1,7 +1,7 @@
 "use client";
 
 import { Chip } from "@heroui/chip";
-import { CalendarCheck, Clock, UserPen } from "lucide-react";
+import { CalendarCheck, Clock, LoaderCircle, UserPen } from "lucide-react";
 import Image from "next/legacy/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -71,7 +71,20 @@ export default function CoursesBySlug() {
 
   useEffect(() => {
     getCourseById();
+    window.scrollTo(0,0)
   }, []);
+
+
+  if (loading) {
+    return(
+      <div>
+        <div className="flex justify-center items-center min-h-screen py-5">
+          <LoaderCircle className="animate-spinner-ease-spin" size={50}/>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950">
       {course.map((item) => (
