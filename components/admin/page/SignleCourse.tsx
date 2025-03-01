@@ -2,10 +2,12 @@
 
 import { deleteCourse } from "@/app/actions/delete-course/action";
 import { Button } from "@heroui/button";
-import { Chip } from "@heroui/react";
+import { Chip, Input } from "@heroui/react";
 import Image from "next/legacy/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import ReactPlayer from "react-player";
 
 interface Course {
   courseDescription: string;
@@ -62,51 +64,101 @@ export default function SingleCourse() {
   const handleDelete = async () => {
     const data = await deleteCourse(Number(id));
     if (data.success === true) {
-      router.push("/admin/dashboard/all-courses")
+      router.push("/admin/dashboard/all-courses");
     }
-    
   };
 
   return (
-    <div>
+    <div className="py-4">
       {course.map((items) => (
         <div key={items.id}>
-          <div className="flex space-x-4">
+          <div className="sm:flex space-x-4 space-y-2 px-4">
             <div className="space-y-2">
               <Image
                 src={items.courseImageURL}
                 alt={items.courseName}
-                width={500}
+                width={800}
                 height={500}
                 className="rounded border"
               />
               <div className="flex justify-center gap-4">
-                <Button className="w-full font-bold" color="danger" onPress={handleDelete}>Delete</Button>
-                <Button className="w-full font-bold" color="success" onPress={handleEditButtonClick}>Edit</Button>
+                <Button
+                  className="w-full font-bold"
+                  color="danger"
+                  onPress={handleDelete}
+                >
+                  Delete
+                </Button>
+                <Button
+                  className="w-full font-bold"
+                  color="success"
+                  onPress={handleEditButtonClick}
+                >
+                  Edit
+                </Button>
+              </div>
+
+              <div className="pt-4 space-y-2">
+                <p className="text-5xl font-bold">Videos:</p>
+                <div>
+                  <p className="font-bold text-gray-400">
+                    You can upload video from here:
+                  </p>
+
+                  <div>
+                    <Input type="file" className="w-64" />
+                  </div>
+                </div>
+
+                <div>
+                  <p className="font-bold">Uploaded videos for this course:</p>
+
+                  <ReactPlayer
+                    url="https://pub-367a5b1b28f9415dae5b51f69d042dff.r2.dev/18872865-hd_1920_1080_30fps.mp4" // Change this to your MKV file URL
+                    playing={true}
+                    controls
+                    width="700px"
+                    height="500px"
+                  />
+                </div>
               </div>
             </div>
 
             <div>
               <div className="mx-auto max-w-xl space-y-2">
                 <h2 className="text-3xl font-bold">{items.courseName}</h2>
-                <h3><span className="text-gray-300 font-bold">Heading: </span> {items.courseHeading}</h3>
+                <h3>
+                  <span className="text-gray-300 font-bold">Heading: </span>{" "}
+                  {items.courseHeading}
+                </h3>
                 <div className="space-x-1">
-                  <Chip><p className="font-bold">Price: {items.coursePrice}</p></Chip>
-                  <Chip><p className="font-bold">Start: {items.courseStartDate}</p></Chip>
-                  <Chip><p className="font-bold">End: {items.courseEndDate}</p></Chip>
+                  <Chip>
+                    <p className="font-bold">Price: {items.coursePrice}</p>
+                  </Chip>
+                  <Chip>
+                    <p className="font-bold">Start: {items.courseStartDate}</p>
+                  </Chip>
+                  <Chip>
+                    <p className="font-bold">End: {items.courseEndDate}</p>
+                  </Chip>
                 </div>
-                <p><span className="text-gray-300 font-bold">Short description: </span>{items.courseShortDescription}</p>
-                <div><span className="text-gray-300 font-bold">Description: </span>
-                <div
-                  className=" [&>ul]:list-disc [&>ul]:pl-6 max-w-[700px]"
-                  dangerouslySetInnerHTML={{
-                    __html: items.courseDescription.replace(
-                      /<p>\s*<\/p>/g,
-                      "<br>"
-                    ),
-                  }}
-                />
-              
+                <p>
+                  <span className="text-gray-300 font-bold">
+                    Short description:{" "}
+                  </span>
+                  {items.courseShortDescription}
+                </p>
+                <div>
+                  <span className="text-gray-300 font-bold">Description: </span>
+                  <div
+                    className=" [&>ul]:list-disc [&>ul]:pl-6 max-w-[700px]"
+                    dangerouslySetInnerHTML={{
+                      __html: items.courseDescription.replace(
+                        /<p>\s*<\/p>/g,
+                        "<br>"
+                      ),
+                    }}
+                  />
                 </div>
               </div>
             </div>
