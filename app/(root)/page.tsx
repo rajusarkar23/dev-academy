@@ -1,5 +1,6 @@
 import AllCourses from "@/components/page/AllCourses";
 import Courses from "@/components/page/Courses";
+import FooterComp from "@/components/page/FooterComp";
 import Hero from "@/components/page/Hero";
 import OurStats from "@/components/page/OurStats";
 import Testimonials from "@/components/page/Testimonials";
@@ -21,6 +22,9 @@ export default function Home() {
       </section>
       <section>
         <Testimonials />
+      </section>
+      <section>
+        <FooterComp />
       </section>
     </main>
   );
