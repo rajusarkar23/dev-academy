@@ -52,7 +52,7 @@ export default function Testimonials() {
     <section className="bg-gradient-to-br from-black to-violet-900/80 mt-8">
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6" />
       <div className="mx-auto max-w-screen-sm">
-        <h2 className="mb-4 text-6xl tracking-tight font-extrabold underline underline-offset-3 text-center">
+        <h2 className="text-center mb-4 text-6xl tracking-tight font-extrabold rounded-full bg-blue-500/40 px-4 py-1 text-white/80  border border-green-300/70">
           Testimonials
         </h2>
       </div>
@@ -79,7 +79,7 @@ export default function Testimonials() {
               />
               <div className="space-y-0.5 font-medium text-left">
                 <div>{items.name}</div>
-                <div className="text-sm font-light text-gray-100">
+                <div className="items-center rounded-full bg-blue-500/40 px-4 py-1 text-sm text-white/80 font-semibold border border-green-300/70 text-gray-100">
                   {items.jobRole}
                 </div>
               </div>
