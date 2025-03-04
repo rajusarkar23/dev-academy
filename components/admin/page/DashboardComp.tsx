@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface enrolled {
@@ -46,9 +47,18 @@ export default function DashboradComp() {
   return (
     <div className="mt-8">
       <div className="flex space-x-5">
-        <p className="bg-black p-4 rounded text-2xl font-bold hover:scale-95 transition-all">Total Students: {student.length}</p>
-        <p className="bg-black p-4 rounded text-2xl font-bold hover:scale-95 transition-all">Total Enrollments: {enrollments.length}</p>
-        <p className="bg-black p-4 rounded text-2xl font-bold hover:scale-95 transition-all">Total failed Enrollments: {failedEnrollments.length}</p>
+        <Link
+          href={"/admin/dashboard/students"}
+          className="bg-yellow-600/10 p-4 rounded text-2xl font-bold hover:scale-95 transition-all"
+        >
+          Total Students: {student.length}
+        </Link>
+        <p className="bg-yellow-600/10  p-4 rounded text-2xl font-bold hover:scale-95 transition-all">
+          Total Enrollments: {enrollments.length}
+        </p>
+        <p className="bg-yellow-600/10 p-4 rounded text-2xl font-bold hover:scale-95 transition-all">
+          Total failed Enrollments: {failedEnrollments.length}
+        </p>
       </div>
     </div>
   );
