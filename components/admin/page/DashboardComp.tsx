@@ -1,5 +1,6 @@
 "use client";
 
+import { Spinner } from "@heroui/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -13,6 +14,8 @@ export default function DashboradComp() {
   const [student, setStudent] = useState([]);
   const [enrolled, setEnrolled] = useState<enrolled[]>([]);
 
+  const [loading, setLoading] = useState(true);
+
   const enrollments = enrolled.filter(function (items) {
     return items.orderPlace === true;
   });
@@ -22,6 +25,7 @@ export default function DashboradComp() {
   });
 
   const getAllStudents = async () => {
+    setLoading(true);
     try {
       const res = await fetch("/api/admin/get-dashboard", {
         method: "GET",
@@ -34,9 +38,11 @@ export default function DashboradComp() {
       if (response.success === true) {
         setStudent(response.dashboard[0].student);
         setEnrolled(enrollments);
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -45,20 +51,35 @@ export default function DashboradComp() {
   }, []);
 
   return (
-    <div className="mt-8">
-      <div className="flex space-x-5">
-        <Link
-          href={"/admin/dashboard/students"}
-          className="bg-yellow-600/10 p-4 rounded text-2xl font-bold hover:scale-95 transition-all"
-        >
-          Total Students: {student.length}
-        </Link>
-        <p className="bg-yellow-600/10  p-4 rounded text-2xl font-bold hover:scale-95 transition-all">
-          Total Enrollments: {enrollments.length}
-        </p>
-        <p className="bg-yellow-600/10 p-4 rounded text-2xl font-bold hover:scale-95 transition-all">
-          Total failed Enrollments: {failedEnrollments.length}
-        </p>
+    <div className="mt-8 min-h-[90vh]">
+      <div className="sm:flex sm:gap-3 sm:space-y-0 space-y-4 max-w-7xl mx-auto w-full">
+        <div className="bg-yellow-700/20 p-4 rounded w-64 flex justify-center hover:scale-95 transition-all">
+          {loading ? (
+            <span>
+              <Spinner />
+            </span>
+          ) : (
+            <Link href={"/admin/dashboard/students"} className="font-semibold hover:underline hover:text-blue-500 hover:scale-105">Total students: {student.length}</Link>
+          )}
+        </div>
+        <div className="bg-yellow-700/20 p-4 rounded w-64 flex justify-center hover:scale-95 transition-all">
+          {loading ? (
+            <span>
+              <Spinner />
+            </span>
+          ) : (
+            <Link href={"/"} className="font-semibold hover:underline hover:text-blue-500 hover:scale-105">Total enrollments: {enrollments.length}</Link>
+          )}
+        </div>
+        <div className="bg-yellow-700/20 p-4 rounded w-64 flex justify-center hover:scale-95 transition-all">
+          {loading ? (
+            <span>
+              <Spinner />
+            </span>
+          ) : (
+            <Link href={"/"} className="font-semibold hover:underline hover:text-blue-500 hover:scale-105">Total failed enrollments {failedEnrollments.length}</Link>
+          )}
+        </div>
       </div>
     </div>
   );
