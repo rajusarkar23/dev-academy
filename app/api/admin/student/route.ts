@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const getAllStudents = await db.select().from(Student);
+    const getAllStudents = await db.select({id: Student.id, email: Student.email, name: Student.name, enrollments: Student.enrollments}).from(Student);
 
     if (getAllStudents.length === 0) {
       return NextResponse.json({
@@ -24,6 +24,8 @@ export async function GET() {
         continue;
       }
 
+
+      
       const coursesById = await db
         .select()
         .from(Course)
@@ -33,11 +35,17 @@ export async function GET() {
     }
 
 
+    const newArr = getAllStudents.map((stud, index) => ({
+      ...stud,
+      enrollments: courses[index] || []
+    }))
+
+
     return NextResponse.json({
       success: true,
       message: "Students fetched",
-      student: getAllStudents,
-      courses
+      student: newArr,
+      
     });
   } catch (error) {
     console.log();

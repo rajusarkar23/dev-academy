@@ -15,18 +15,14 @@ interface Students {
   id: number;
   email: string;
   name: string;
-  enrolled: [];
+  enrollments: []
 }
 
-interface Enrollments {
-  items: []
-}
 
 export default function StudentComp() {
   const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState<Students[]>([]);
-  const [enrollments, setenrollments] = useState<Enrollments[]>([]);
-  console.log(enrollments[1]);
+  const [visible, setVisible] = useState(true)
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -42,7 +38,6 @@ export default function StudentComp() {
 
         if (response.success === true) {
           setStudent(response.student);
-          setenrollments(response.courses);
 
           setLoading(false);
         } else {
@@ -77,19 +72,37 @@ export default function StudentComp() {
         </p>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        {student.map((items) => (
-          <div key={items.id}>
+
+        <div>
+          <Button onPress={() => setVisible(!visible)}>Press</Button>
+        </div>
+        {student.map((items, index) => (
+          <div key={index}>
             <Button onPress={onOpen} className="w-full h-16">
               <div>
                 <p className="font-semibold">Name: {items.name}</p>
                 <p className="font-semibold">Email: {items.email}</p>
+              
               </div>
             </Button>
+
+            <div>
+              {
+                visible && <div>   
+                  {
+                  items.enrollments.map((course, index) => (
+                    <p key={index}>{course.slug}</p>
+                  ))
+              }
+              
+              </div>
+              }
+            </div>
             <Modal
               isOpen={isOpen}
               onOpenChange={onOpenChange}
               className="text-black"
-              size="xl"
+              size="5xl"
             >
               <ModalContent>
                 {(onClose) => (
@@ -104,14 +117,15 @@ export default function StudentComp() {
                       <p className="font-semibold">Email: {items.email}</p>
                       <div className="font-bold">
                         <p>Student enrollments:uiu</p>
+                          <p>
+                            {/* {
+                                items.enrollments.map((course, index) => (
+                                  <p>{course.slug}</p>
+                                ))
+                            } */}
 
-                        {
-                          enrollments.map((item) => (
-                            <p>{item.items.map((ie) => (
-                              <p>{ie.slug}</p>
-                            ))}</p>
-                          ))
-                        }
+                            dfjfvljfbjkf
+                          </p>
                       </div>
                     </ModalBody>
                     <ModalFooter>
