@@ -1,8 +1,11 @@
+import StudentComp from '@/components/admin/page/StudentComp'
 import React from 'react'
 
 const Students = () => {
   return (
-    <div>Students</div>
+    <div>
+      <StudentComp />
+    </div>
   )
 }
 
