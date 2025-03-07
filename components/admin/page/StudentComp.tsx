@@ -1,30 +1,35 @@
 "use client";
 import {
   Button,
+  Divider,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   Skeleton,
-  useDisclosure,
 } from "@heroui/react";
 import { useEffect, useState } from "react";
+
+interface Enrollments {
+  id: number,
+  courseName: string,
+  courseImageURL: string
+}
 
 interface Students {
   id: number;
   email: string;
   name: string;
-  enrollments: []
+  enrollments: Enrollments[];
 }
-
 
 export default function StudentComp() {
   const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState<Students[]>([]);
-  const [visible, setVisible] = useState(true)
+  const [visible, setVisible] = useState(false);
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [selectedStudent, setSelectedStudent] = useState<Students | null>(null);
 
   useEffect(() => {
     const getAllStudents = async () => {
@@ -72,37 +77,23 @@ export default function StudentComp() {
         </p>
       </div>
       <div className="grid grid-cols-2 gap-4">
-
-        <div>
-          <Button onPress={() => setVisible(!visible)}>Press</Button>
-        </div>
         {student.map((items, index) => (
           <div key={index}>
-            <Button onPress={onOpen} className="w-full h-16">
+            {/* Showing name and email id inside a button */}
+            <Button
+              onPress={() => setSelectedStudent(items)}
+              className="w-full h-16"
+            >
               <div>
                 <p className="font-semibold">Name: {items.name}</p>
                 <p className="font-semibold">Email: {items.email}</p>
-              
               </div>
             </Button>
-
-            <div>
-              {
-                visible && <div>   
-                  {
-                  items.enrollments.map((course, index) => (
-                    <p key={index}>{course.slug}</p>
-                  ))
-              }
-              
-              </div>
-              }
-            </div>
+            {/*Creating a modal to show all other course details  */}
             <Modal
-              isOpen={isOpen}
-              onOpenChange={onOpenChange}
+              isOpen={!!selectedStudent} //!! transform into boolean value
+              onOpenChange={() => setSelectedStudent(null)}
               className="text-black"
-              size="5xl"
             >
               <ModalContent>
                 {(onClose) => (
@@ -111,25 +102,36 @@ export default function StudentComp() {
                       Student details and enrollments
                     </ModalHeader>
                     <ModalBody>
-                      <p className="font-semibold">
-                        Student name: {items.name}
-                      </p>
-                      <p className="font-semibold">Email: {items.email}</p>
-                      <div className="font-bold">
-                        <p>Student enrollments:uiu</p>
-                          <p>
-                            {/* {
-                                items.enrollments.map((course, index) => (
-                                  <p>{course.slug}</p>
-                                ))
-                            } */}
-
-                            dfjfvljfbjkf
+                      {selectedStudent && (
+                        <>
+                          <p className="font-semibold">
+                            Student name: {selectedStudent.name}
                           </p>
-                      </div>
+                          <p className="font-semibold">
+                            Email: {selectedStudent.email}
+                          </p>
+                          <div className="font-bold">
+                            <p className="text-blue-600">Student enrollments:</p>
+                            {selectedStudent.enrollments.length > 0 ? (
+                              selectedStudent.enrollments.map((course) => (
+                                <div>
+                                  <p key={course.id} className="text-green-700">{course.courseName}</p>
+                                  <Divider />
+                                </div>
+                              ))
+                            ) : (
+                              <p className="text-red-500">This student has no enrollments.</p>
+                            )}
+                          </div>
+                        </>
+                      )}
                     </ModalBody>
                     <ModalFooter>
-                      <Button color="danger" variant="light" onPress={onClose}>
+                      <Button
+                        color="danger"
+                        variant="light"
+                        onPress={() => setSelectedStudent(null)}
+                      >
                         Close
                       </Button>
                     </ModalFooter>
