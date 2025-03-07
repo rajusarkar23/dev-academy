@@ -1,5 +1,14 @@
 "use client";
-import { Skeleton } from "@heroui/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Skeleton,
+  useDisclosure,
+} from "@heroui/react";
 import { useEffect, useState } from "react";
 
 interface Students {
@@ -11,6 +20,8 @@ interface Students {
 export default function StudentComp() {
   const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState<Students[]>([]);
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
     const getAllStudents = async () => {
@@ -49,18 +60,59 @@ export default function StudentComp() {
   }
 
   return (
-    <div className="py-8 space-y-4">
-        <div className="space-y-2">
-            <h2 className="text-center text-5xl font-semibold">Students</h2>
-            <p className="text-center font-semibold text-gray-300">Total students: {student.length}</p>
-        </div>
+    <div className="py-8 space-y-4 min-h-[95vh]">
+      <div className="space-y-2">
+        <h2 className="text-center text-5xl font-semibold">Students</h2>
+        <p className="text-center font-semibold text-gray-300">
+          Total students: {student.length}
+        </p>
+      </div>
       <div className="grid grid-cols-2 gap-4">
         {student.map((items) => (
-          <div key={items.id} className="bg-yellow-700/20 p-4 rounded">
-            <div className="">
-              <h2>Name: {items.name}</h2>
-              <p>Email: {items.email}</p>
-            </div>
+          <div key={items.id}>
+            <Button onPress={onOpen} className="w-full h-16">
+              <div>
+                <p className="font-semibold">Name: {items.name}</p>
+                <p className="font-semibold">Email: {items.email}</p>
+              </div>
+            </Button>
+            <Modal
+              isOpen={isOpen}
+              onOpenChange={onOpenChange}
+              className="text-black"
+              size="xl"
+            >
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader className="flex flex-col gap-1 text-2xl text-gray-900">
+                      Student details and enrollments
+                    </ModalHeader>
+                    <ModalBody>
+                      <p className="font-semibold">
+                        Student name: {items.name}
+                      </p>
+                      <p className="font-semibold">
+                        Email: {items.email}
+                      </p>
+                     <div>
+                        <p className="font-bold">Student enrollments:</p>
+
+                        
+                     </div>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color="danger" variant="light" onPress={onClose}>
+                        Close
+                      </Button>
+                      <Button color="primary" onPress={onClose}>
+                        Action
+                      </Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
           </div>
         ))}
       </div>
