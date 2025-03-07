@@ -1,5 +1,6 @@
 import { db } from "@/lib/db/db";
-import { Student } from "@/lib/schema/schema";
+import { Course, Student } from "@/lib/schema/schema";
+import { inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -12,11 +13,31 @@ export async function GET() {
         message: "No students found",
       });
     }
+    // console.log(getAllStudents);
+
+    const enrollmentsArr = getAllStudents.map((obj) => obj.enrollments);
+    let courses = [];
+
+    for (const enrollmentIds of enrollmentsArr) {
+      if (enrollmentIds.length === 0) {
+        courses.push([])
+        continue;
+      }
+
+      const coursesById = await db
+        .select()
+        .from(Course)
+        .where(inArray(Course.id, enrollmentIds));
+
+        courses.push(coursesById)
+    }
+
 
     return NextResponse.json({
       success: true,
       message: "Students fetched",
       student: getAllStudents,
+      courses
     });
   } catch (error) {
     console.log();

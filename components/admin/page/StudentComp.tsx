@@ -15,11 +15,18 @@ interface Students {
   id: number;
   email: string;
   name: string;
+  enrolled: [];
+}
+
+interface Enrollments {
+  items: []
 }
 
 export default function StudentComp() {
   const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState<Students[]>([]);
+  const [enrollments, setenrollments] = useState<Enrollments[]>([]);
+  console.log(enrollments[1]);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -35,6 +42,8 @@ export default function StudentComp() {
 
         if (response.success === true) {
           setStudent(response.student);
+          setenrollments(response.courses);
+
           setLoading(false);
         } else {
           console.log(response);
@@ -92,21 +101,22 @@ export default function StudentComp() {
                       <p className="font-semibold">
                         Student name: {items.name}
                       </p>
-                      <p className="font-semibold">
-                        Email: {items.email}
-                      </p>
-                     <div>
-                        <p className="font-bold">Student enrollments:</p>
+                      <p className="font-semibold">Email: {items.email}</p>
+                      <div className="font-bold">
+                        <p>Student enrollments:uiu</p>
 
-                        
-                     </div>
+                        {
+                          enrollments.map((item) => (
+                            <p>{item.items.map((ie) => (
+                              <p>{ie.slug}</p>
+                            ))}</p>
+                          ))
+                        }
+                      </div>
                     </ModalBody>
                     <ModalFooter>
                       <Button color="danger" variant="light" onPress={onClose}>
                         Close
-                      </Button>
-                      <Button color="primary" onPress={onClose}>
-                        Action
                       </Button>
                     </ModalFooter>
                   </>
