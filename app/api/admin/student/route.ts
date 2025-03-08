@@ -3,6 +3,13 @@ import { Course, Student } from "@/lib/schema/schema";
 import { inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
+type Courses = {
+  id: number,
+  courseName: string,
+  courseImageURL: string
+}
+
+
 export async function GET() {
   try {
     const getAllStudents = await db.select({id: Student.id, email: Student.email, name: Student.name, enrollments: Student.enrollments}).from(Student);
@@ -16,7 +23,8 @@ export async function GET() {
     // console.log(getAllStudents);
 
     const enrollmentsArr = getAllStudents.map((obj) => obj.enrollments);
-    let courses = [];
+    
+    const courses: Courses[][] = [];
 
     for (const enrollmentIds of enrollmentsArr) {
       if (enrollmentIds.length === 0) {
@@ -24,18 +32,15 @@ export async function GET() {
         continue;
       }
 
-
-      
       const coursesById = await db
         .select()
         .from(Course)
         .where(inArray(Course.id, enrollmentIds));
-
         courses.push(coursesById)
     }
 
 
-    const newArr = getAllStudents.map((stud, index) => ({
+    const newStudentArr = getAllStudents.map((stud, index) => ({
       ...stud,
       enrollments: courses[index] || []
     }))
@@ -44,7 +49,7 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       message: "Students fetched",
-      student: newArr,
+      student: newStudentArr,
       
     });
   } catch (error) {

@@ -9,6 +9,7 @@ import {
   ModalHeader,
   Skeleton,
 } from "@heroui/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface Enrollments {
@@ -27,7 +28,6 @@ interface Students {
 export default function StudentComp() {
   const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState<Students[]>([]);
-  const [visible, setVisible] = useState(false);
 
   const [selectedStudent, setSelectedStudent] = useState<Students | null>(null);
 
@@ -96,26 +96,26 @@ export default function StudentComp() {
               className="text-black"
             >
               <ModalContent>
-                {(onClose) => (
+                {() => (
                   <>
-                    <ModalHeader className="flex flex-col gap-1 text-2xl text-gray-900">
+                    <ModalHeader className="flex flex-col gap-1 text-2xl font-semibold text-blue-600">
                       Student details and enrollments
                     </ModalHeader>
                     <ModalBody>
                       {selectedStudent && (
                         <>
                           <p className="font-semibold">
-                            Student name: {selectedStudent.name}
+                            Student name: <span className="text-gray-700 font-bold">{selectedStudent.name}</span>
                           </p>
                           <p className="font-semibold">
-                            Email: {selectedStudent.email}
+                            Email: <span className="text-gray-700 font-bold">{selectedStudent.email}</span>
                           </p>
                           <div className="font-bold">
-                            <p className="text-blue-600">Student enrollments:</p>
+                            <p className="text-blue-600 underline underline-offset-2 font-bold">Student enrollments:</p>
                             {selectedStudent.enrollments.length > 0 ? (
                               selectedStudent.enrollments.map((course) => (
-                                <div>
-                                  <p key={course.id} className="text-green-700">{course.courseName}</p>
+                                <div key={course.id}>
+                                  <Link href={`/admin/dashboard/courses/${course.id}`} className="text-green-700 hover:underline">{course.courseName}</Link>
                                   <Divider />
                                 </div>
                               ))
