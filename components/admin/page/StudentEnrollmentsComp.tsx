@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 
 interface Enrollments {
-  courseId: number,
-  courseName: string,
-  email: string,
-  name: string
+  courseId: number;
+  courseName: string;
+  email: string;
+  name: string;
 }
 
 export default function StudentEnrollmentsComp() {
@@ -45,8 +45,18 @@ export default function StudentEnrollmentsComp() {
       <div>
         <p>loading....</p>
       </div>
-    )
+    );
   }
 
-  return <div>coursesById</div>;
+  return (
+    <div className="p-2 space-y-2 sm:grid sm:grid-cols-3 gap-2 justify-center items-center">
+      {enrollments.map((enrollment, index) => (
+        <div key={index} className="bg-yellow-700/40 p-4 rounded">
+          <p>Course name: <span className="text-white/70 font-bold">{enrollment.courseName}</span></p>
+          <p>Student name: <span className="text-white/70 font-bold">{enrollment.name}</span></p>
+          <p>Student email: <span className="text-white/70 font-bold">{enrollment.email}</span></p>
+        </div>
+      ))}
+    </div>
+  );
 }
