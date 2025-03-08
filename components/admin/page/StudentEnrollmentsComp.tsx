@@ -21,51 +21,75 @@ export default function StudentEnrollmentsComp() {
         });
 
         const response = await res.json();
+        console.log(response);
+        
 
         if (response.success === true) {
           setEnrollments(response.enrollments);
           const studentIds = response.enrollments.map(
             (ite: Enrollments) => ite.studentId
           );
+          const courseId = response.enrollments.map(
+            (ite: Enrollments) => ite.courseId
+          );
 
-          console.log(studentIds.length);
-          
-       
-          async function fetchStudents(ids: number){
+          console.log(courseId);
+
+          async function fetchStudents(ids: number) {
             try {
-                const res = await fetch(`/api/admin/student/by-id?id=${ids}`)
-                // console.log(await res.json());
+              const res = await fetch(`/api/admin/student/by-id?id=${ids}`);
 
-                return res.json()
-                
+              return res.json();
             } catch (error) {
-                console.log(error);
-                
+              console.log(error);
             }
           }
 
-          async function fetchAll(){
+          async function fetchAllStudents() {
             try {
-                const res = []
+              const students = [];
 
-                for(const id of studentIds) {
-                    const student = await fetchStudents(id)
+              for (const id of studentIds) {
+                const student = await fetchStudents(id);
 
-                    res.push(student)
-                }
+                students.push(student);
+              }
 
-                console.log(res);
-                
-                
+              console.log(students);
             } catch (error) {
-                console.log(error);
-                
+              console.log(error);
             }
           }
 
+          async function fetchCourses(ids: number) {
+            try {
+              const res = await fetch(`/api/admin/course/by-id?id=${ids}`);
+
+              return res.json();
+            } catch (error) {
+              console.log(error);
+            }
+          }
+
+          async function fetchAllCourses() {
+            try {
+              const courses = [];
+
+              for (const ids of courseId) {
+                const course = await fetchCourses(ids);
+
+                courses.push(course);
+              }
+
+              console.log(courses);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+
+          fetchAllCourses();
+          fetchAllStudents();
           setLoading(false);
-
-          fetchAll()
         } else {
           console.log(response);
           setLoading(false);

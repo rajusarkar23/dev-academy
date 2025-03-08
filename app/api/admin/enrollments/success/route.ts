@@ -11,6 +11,8 @@ export async function GET() {
             return NextResponse.json({success: false, message: "No enrollments found."})
         }  
 
+        
+
         return NextResponse.json({success: true, message: "Enrollments fethced", enrollments: getFailedEnrollments})
         
     } catch (error) {
