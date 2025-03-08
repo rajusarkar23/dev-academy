@@ -1,7 +1,17 @@
 import { db } from "@/lib/db/db";
 import { Course, Order, Student } from "@/lib/schema/schema";
-import { eq, inArray } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
+
+type Course = {
+  courseId:  number,
+  courseName: string
+}
+
+type Student = {
+  name: string,
+  email: string
+}
 
 export async function GET() {
   try {
@@ -18,27 +28,32 @@ export async function GET() {
     }
 
     const courseid = getFailedEnrollments.map((ite) => ite.courseId);
-    const studentId = getFailedEnrollments.map((ite) => ite.studentId)
+    const studentId = getFailedEnrollments.map((ite) => ite.studentId);
 
-    let ccourse = [];
+    const ccourse: Course[][] = [];
 
     for (const ids of courseid) {
-      const course = await db.select({courseName: Course.courseName, courseId: Course.id}).from(Course).where(eq(Course.id, ids));
+      const course = await db
+        .select({ courseName: Course.courseName, courseId: Course.id })
+        .from(Course)
+        .where(eq(Course.id, ids));
       ccourse.push(course);
     }
 
-    let students = []
+    const students: Student[][] = [];
 
-    for(const ids of studentId){
-        const student = await db.select({email: Student.email, name:Student.name}).from(Student).where(eq(Student.id, ids))
-        students.push(student)
+    for (const ids of studentId) {
+      const student = await db
+        .select({ email: Student.email, name: Student.name })
+        .from(Student)
+        .where(eq(Student.id, ids));
+      students.push(student);
     }
 
     const failedEnrollments = students.map((student, index) => ({
       ...student[0],
-      ...ccourse[index][0]
-    }))
-
+      ...ccourse[index][0],
+    }));
 
     return NextResponse.json({
       success: true,

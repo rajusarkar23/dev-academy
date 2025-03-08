@@ -40,5 +40,13 @@ export default function StudentEnrollmentsComp() {
     getFailedEnrollments();
   }, []);
 
+  if (loading) {
+    return (
+      <div>
+        <p>loading....</p>
+      </div>
+    )
+  }
+
   return <div>coursesById</div>;
 }
