@@ -5,7 +5,6 @@ import React from 'react'
 const OrderDetails = async () => {
 
    const data = await fetchDetailsForOrder()
-      console.log(data.details);
 
   return (
     <div>

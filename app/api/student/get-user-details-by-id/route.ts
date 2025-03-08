@@ -33,10 +33,6 @@ export async function POST(req: NextRequest) {
             }})
         }
 
-        // console.log(getStudentCourses);
-        
-                
-        
         return NextResponse.json({success: true, message: "Courses fetched successfully", studentDetails: {
             email: findStudent[0].email,
             name: findStudent[0].name,

@@ -39,7 +39,6 @@ export async function POST(req: NextRequest) {
 
             if (enroll.length !== 0) {
                 const newEnroll = [...enroll, courseId]
-                console.log("enrollToStr", newEnroll);
                 await db.update(Student).set({
                     enrollments: newEnroll
                 }).where(eq(Student.id, getFullOrder[0].student))

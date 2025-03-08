@@ -12,7 +12,6 @@ export async function fetchDetailsForOrder(){
             const verify = jwt.verify(cookie, `${process.env.SESSION_FOR_STUDENT}`)
             //@ts-expect-error, student id is there
             const userId = verify.studentId
-            // console.log(userId);
         
             if (typeof userId === "undefined") {
                 return "No user, undefined"
@@ -29,8 +28,6 @@ export async function fetchDetailsForOrder(){
     })
 
     const data = await res.json()
-
-    // console.log(data);
     
     return data
 

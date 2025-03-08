@@ -34,9 +34,6 @@ export async function GET() {
       });
     }
 
-    console.log(getFailedEnrollments);
-    
-
     return NextResponse.json({
       success: true,
       message: "Enrollments fethced",

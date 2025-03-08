@@ -5,8 +5,6 @@ import ProcessOrderComp from '@/components/checkout/ProcessOrderComp';
 const ProcessOrder = async () => {
 
     const order = await processOrder()
-    console.log(order);
-    
 
     return (
         <div>

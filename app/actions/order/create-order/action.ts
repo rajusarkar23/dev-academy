@@ -17,7 +17,6 @@ export async function createOrder({ price, productId }: { price: string, product
         const verify = jwt.verify(cookie, `${process.env.SESSION_FOR_STUDENT}`)
         //@ts-expect-error, student id is there
         const userId = verify.studentId
-        // console.log(userId);
     
         if (typeof userId === "undefined") {
             return
@@ -34,7 +33,6 @@ export async function createOrder({ price, productId }: { price: string, product
 
     const data = await res.json();
     (await cookies()).set("uupid", data.uniqueId, {maxAge: 60 * 60, expires: 60 * 60, httpOnly: true})
-    console.log(data);
     if (data.success === true) {
         redirect(`/order-details/${data.uniqueId}`)
     }
