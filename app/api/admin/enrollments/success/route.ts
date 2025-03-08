@@ -4,20 +4,27 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 type Course = {
-  courseId:  number,
-  courseName: string
-}
+  courseId: number;
+  courseName: string;
+};
 
 type Student = {
-  name: string,
-  email: string
-}
+  name: string;
+  email: string;
+};
 
 export async function GET() {
   try {
     const getFailedEnrollments = await db
-      .select({ courseId: Order.courseId, studentId: Order.student })
+      .select({
+        courseId: Course.id,
+        courseName: Course.courseName,
+        studentName: Student.name,
+        studentEmail: Student.email
+      })
       .from(Order)
+      .innerJoin(Course, eq(Order.courseId, Course.id))
+      .innerJoin(Student, eq(Order.student, Student.id))
       .where(eq(Order.paymentSuccess, false));
 
     if (getFailedEnrollments.length === 0) {
@@ -27,38 +34,13 @@ export async function GET() {
       });
     }
 
-    const courseid = getFailedEnrollments.map((ite) => ite.courseId);
-    const studentId = getFailedEnrollments.map((ite) => ite.studentId);
-
-    const ccourse: Course[][] = [];
-
-    for (const ids of courseid) {
-      const course = await db
-        .select({ courseName: Course.courseName, courseId: Course.id })
-        .from(Course)
-        .where(eq(Course.id, ids));
-      ccourse.push(course);
-    }
-
-    const students: Student[][] = [];
-
-    for (const ids of studentId) {
-      const student = await db
-        .select({ email: Student.email, name: Student.name })
-        .from(Student)
-        .where(eq(Student.id, ids));
-      students.push(student);
-    }
-
-    const failedEnrollments = students.map((student, index) => ({
-      ...student[0],
-      ...ccourse[index][0],
-    }));
+    console.log(getFailedEnrollments);
+    
 
     return NextResponse.json({
       success: true,
       message: "Enrollments fethced",
-      failedEnrollments,
+      failedEnrollments: getFailedEnrollments
     });
   } catch (error) {
     console.log(error);
@@ -68,7 +50,3 @@ export async function GET() {
     });
   }
 }
-
-// student name
-// course id => course name
-// created at
