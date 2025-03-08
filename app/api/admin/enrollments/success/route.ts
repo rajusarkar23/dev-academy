@@ -23,12 +23,9 @@ export async function GET() {
     let ccourse = [];
 
     for (const ids of courseid) {
-      const course = await db.select({courseName: Course.courseName}).from(Course).where(eq(Course.id, ids));
+      const course = await db.select({courseName: Course.courseName, courseId: Course.id}).from(Course).where(eq(Course.id, ids));
       ccourse.push(course);
     }
-
-    console.log(ccourse);
-
 
     let students = []
 
@@ -37,13 +34,16 @@ export async function GET() {
         students.push(student)
     }
 
-    console.log(students);
-    
+    const failedEnrollments = students.map((student, index) => ({
+      ...student[0],
+      ...ccourse[index][0]
+    }))
+
 
     return NextResponse.json({
       success: true,
       message: "Enrollments fethced",
-      enrollments: getFailedEnrollments,
+      failedEnrollments,
     });
   } catch (error) {
     console.log(error);
