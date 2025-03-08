@@ -21,7 +21,7 @@ export default function StudentEnrollmentsComp() {
         });
 
         const response = await res.json();
-        console.log(response);
+        // console.log(response);
         
 
         if (response.success === true) {
@@ -33,7 +33,7 @@ export default function StudentEnrollmentsComp() {
             (ite: Enrollments) => ite.courseId
           );
 
-          console.log(courseId);
+          // console.log(courseId);
 
           async function fetchStudents(ids: number) {
             try {
@@ -55,7 +55,7 @@ export default function StudentEnrollmentsComp() {
                 students.push(student);
               }
 
-              console.log(students);
+              // console.log(students);
             } catch (error) {
               console.log(error);
             }
@@ -81,14 +81,14 @@ export default function StudentEnrollmentsComp() {
                 courses.push(course);
               }
 
-              console.log(courses);
+              // console.log(courses);
             } catch (error) {
               console.log(error);
             }
           }
 
-          fetchAllCourses();
-          fetchAllStudents();
+          // fetchAllCourses();
+          // fetchAllStudents();
           setLoading(false);
         } else {
           console.log(response);
