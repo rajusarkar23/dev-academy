@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { db } from "@/lib/db/db";
 import { Course, Order, Student } from "@/lib/schema/schema";
 import { eq } from "drizzle-orm";
+import { orderSuccessEmail } from "@/lib/emails/order-success-mail";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2025-02-24.acacia",
@@ -62,6 +63,15 @@ export async function POST(req: NextRequest) {
         .where(eq(Student.id, getFullOrder[0].student));
       const enroll = student[0].enrollments;
 
+      const email = student[0].email;
+      const name = student[0].name
+      const courseName = getCourse[0].courseName
+      // send mail
+      orderSuccessEmail(email, courseName, name);
+
+      await db.update(Order).set({
+        orderSuccessEmailSent: true
+      })
       if (enroll.length !== 0) {
         const newEnroll = [...enroll, courseId];
         await db
