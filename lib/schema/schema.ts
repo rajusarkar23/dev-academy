@@ -55,5 +55,9 @@ export const Order = pgTable("order", {
     paymentSessionId: text("payment_session_id").unique(),
     paymentId: text("payment_id").unique(),
     paymentSuccess: boolean("payment_success").default(false),
-    isOrderPlaceSuccess: boolean("is_order_place_success").default(false)
+    isOrderPlaceSuccess: boolean("is_order_place_success").default(false),
+    orderFailedEmailSent: boolean("order_failed_email_sent").default(false),
+    orderSuccessEmailSent: boolean("order_success_email_sent").default(false),
+    createdAt:timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").$onUpdate(() => new Date())
 })
