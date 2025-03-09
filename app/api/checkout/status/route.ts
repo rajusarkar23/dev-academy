@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
 
       await db.update(Order).set({
         orderSuccessEmailSent: true
-      })
+      }).where(eq(Order.id, getFullOrder[0].id))
       if (enroll.length !== 0) {
         const newEnroll = [...enroll, courseId];
         await db

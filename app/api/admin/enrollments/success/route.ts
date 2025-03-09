@@ -20,7 +20,9 @@ export async function GET() {
         courseId: Course.id,
         courseName: Course.courseName,
         studentName: Student.name,
-        studentEmail: Student.email
+        studentEmail: Student.email,
+        maileSend: Order.orderFailedEmailSent,
+        orderId: Order.id
       })
       .from(Order)
       .innerJoin(Course, eq(Order.courseId, Course.id))
