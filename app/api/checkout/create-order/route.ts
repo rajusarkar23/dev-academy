@@ -28,6 +28,9 @@ export async function POST(req: NextRequest) {
         })
     } catch (error) {
         console.log(error);
-
+        return NextResponse.json({
+            success: false,
+            message: "Something went wrong, please try again..."
+        })
     }
 }
