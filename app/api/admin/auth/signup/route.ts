@@ -37,9 +37,11 @@ export async function POST(req: NextRequest) {
             otp: hashedOTP
         }).returning();
 
+        
         if (insertAdmin.length === 1) {
             console.log(otp);
-            otpVerifyEmail(otp, email);
+            const mailType = "verificationMail"
+            otpVerifyEmail(otp, email, mailType);
             // send mail
             console.log(insertAdmin[0].id);
 
