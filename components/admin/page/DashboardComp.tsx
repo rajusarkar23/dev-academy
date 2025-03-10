@@ -88,7 +88,7 @@ export default function DashboradComp() {
             </span>
           ) : (
             <Link
-              href={"/"}
+              href={"/admin/dashboard/failed-student-enrollments"}
               className="font-semibold hover:underline hover:text-blue-500 hover:scale-105"
             >
               Total failed enrollments {failedEnrollments.length}
