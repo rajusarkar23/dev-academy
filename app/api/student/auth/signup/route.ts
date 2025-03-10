@@ -43,8 +43,6 @@ export async function POST(req: NextRequest) {
 
             otpVerifyEmail(otp, email)
             // send mail
-            console.log(insertStudent[0].id);
-
             // genaret jwt
             const jwt_token = jwt.sign({ userId: insertStudent[0].id }, `${process.env.OTP_VERIFY_SESSION}`);
 

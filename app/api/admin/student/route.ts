@@ -20,8 +20,6 @@ export async function GET() {
         message: "No students found",
       });
     }
-    // console.log(getAllStudents);
-
     const enrollmentsArr = getAllStudents.map((obj) => obj.enrollments);
     
     const courses: Courses[][] = [];

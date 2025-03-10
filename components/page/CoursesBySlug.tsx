@@ -1,9 +1,9 @@
 "use client";
 
 import { Chip } from "@heroui/chip";
-import { CalendarCheck, Clock, LoaderCircle, UserPen } from "lucide-react";
+import { ArrowRight, CalendarCheck, Clock, LoaderCircle, UserPen } from "lucide-react";
 import Image from "next/legacy/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@heroui/skeleton";
 import { Button } from "@heroui/button";
@@ -31,7 +31,9 @@ interface course {
 export default function CoursesBySlug() {
   const [course, setCourse] = useState<course[]>([]);
   const [loading, setLoading] = useState(false);
-  const [orderClicked, setOrderClicked] = useState(false)
+  const [orderClicked, setOrderClicked] = useState(false);
+  const [courseExists, setCourseExists] = useState(false);
+  const router = useRouter()
 
   const slug = useParams().slug;
 
@@ -60,10 +62,33 @@ export default function CoursesBySlug() {
       setLoading(false);
     }
   };
+  const checkIfCourseExistOnStudentEnrollments = async () => {
+    try {
+      const res = await fetch(
+        "/api/student/check-if-student-already-enrolled",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ slug }),
+        }
+      );
+
+      const response = await res.json();
+      if (response.success === true) {
+        setCourseExists(true);
+      } else {
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handlePress = async () => {
     setOrderClicked(true);
-      await createOrder({
+    await createOrder({
       price: course[0].coursePrice,
       productId: course[0].id,
     });
@@ -71,6 +96,7 @@ export default function CoursesBySlug() {
 
   useEffect(() => {
     getCourseById();
+    checkIfCourseExistOnStudentEnrollments();
     window.scrollTo(0, 0);
   }, []);
 
@@ -121,19 +147,35 @@ export default function CoursesBySlug() {
                           {item.studentCapacity}
                         </span>
                       </p>
-                      {orderClicked ? (
-                        <Button disabled className="w-full">
-                          <Spinner />
-                        </Button>
-                      ) : (
-                        <Button
-                          className="w-full font-bold"
-                          color="primary"
-                          onPress={handlePress}
-                        >
-                          Book your seat
-                        </Button>
-                      )}
+                      <div>
+                        {courseExists ? (
+                          <Button
+                            color="secondary"
+                            className="w-full font-bold"
+                            onPress={() => {
+                              router.replace("/profile/enrollments")
+                            }}
+                          >
+                            You are already enrolled in this, Go to dashboard <ArrowRight />
+                          </Button>
+                        ) : (
+                          <div>
+                            {orderClicked ? (
+                              <Button disabled className="w-full">
+                                <Spinner />
+                              </Button>
+                            ) : (
+                              <Button
+                                className="w-full font-bold"
+                                color="primary"
+                                onPress={handlePress}
+                              >
+                                Book your seat
+                              </Button>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
