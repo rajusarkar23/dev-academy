@@ -48,7 +48,7 @@ export default function PlaceOrderBtn({ product, price, orderUniqueId, email }: 
 
         <div>
             {
-                loading ? (<Button isDisabled className="w-full" color="primary"><Spinner /></Button>) : (<Button
+                loading ? (<Button isDisabled className="w-full"><Spinner /></Button>) : (<Button
                     onPress={handlePayment}
                     className="w-full font-semibold text-xl border border-green-300 shadow shadow-white/20" color="primary" >
                     Go for checkout <MoveRight />
