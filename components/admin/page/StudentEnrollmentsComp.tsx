@@ -1,6 +1,7 @@
 "use client";
 
-import { Alert, Chip } from "@heroui/react";
+import { Alert, Chip, Spinner } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface Enrollments {
@@ -16,9 +17,11 @@ export default function StudentEnrollmentsComp() {
   const [loading, setLoading] = useState(false);
   const [enrollments, setEnrollments] = useState<Enrollments[]>([]);
   const [mailsent, setMailSent] = React.useState(false);
+  const [deleted, setDeleted] = useState(false)
+  const router = useRouter();
 
   const title = "Email sent";
-  const description = "Mail has been sent.";
+  const description = "Mail has been sent successfully.";
 
   useEffect(() => {
     setLoading(true);
@@ -29,7 +32,6 @@ export default function StudentEnrollmentsComp() {
         });
 
         const response = await res.json();
-        console.log(response);
 
         if (response.success === true) {
           setEnrollments(response.failedEnrollments);
@@ -49,8 +51,8 @@ export default function StudentEnrollmentsComp() {
 
   if (loading) {
     return (
-      <div>
-        <p>loading....</p>
+      <div className="flex justify-center items-center min-h-[90vh]">
+        <Spinner />
       </div>
     );
   }
@@ -66,6 +68,33 @@ export default function StudentEnrollmentsComp() {
         {enrollments.map((enrollment, index) => (
           <div key={index} className="bg-yellow-700/40 p-4 rounded space-y-2">
             <div>
+              <div>
+                <button
+                  className="bg-red-500 rounded-full px-4 py-1"
+                  onClick={async () => {
+                    try {
+                      const res = await fetch(
+                        `/api/admin/enrollments/delete-failed-enrollments?id=${enrollment.orderId}`,
+                        {
+                          method: "DELETE",
+                        }
+                      );
+                      const response = await res.json();
+                      if (response.success === true) {
+                        enrollments.splice(index, 1);
+                        router.refresh();
+                        setDeleted(true)
+                      } else {
+                        console.log(response);
+                      }
+                    } catch (error) {
+                      console.log(error);
+                    }
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
               <p>
                 Course name:
                 <span className="text-white/70 font-bold">
@@ -118,6 +147,7 @@ export default function StudentEnrollmentsComp() {
                           button.textContent === "Send mail"
                             ? "Sending..."
                             : "Send mail";
+                        button.disabled = true;
 
                         try {
                           await fetch(
@@ -125,6 +155,7 @@ export default function StudentEnrollmentsComp() {
                           );
                           setMailSent(true);
                           enrollment.maileSend = true;
+                          router.refresh();
                         } catch (error) {
                           console.log(error);
                         }
@@ -141,7 +172,7 @@ export default function StudentEnrollmentsComp() {
         ))}
       </div>
 
-      <div className="top-0 fixed right-0 transition-all delay-150">
+      <div className="top-0 fixed right-0">
         {mailsent && (
           <Alert
             color="success"
@@ -150,6 +181,18 @@ export default function StudentEnrollmentsComp() {
             title={title}
             variant="faded"
             onClose={() => setMailSent(false)}
+          />
+        )}
+      </div>
+      <div className="top-0 fixed right-0">
+        {deleted && (
+          <Alert
+            color="danger"
+            description={"Order has been deleted successfully"}
+            isVisible={deleted}
+            title={"Deleted"}
+            variant="faded"
+            onClose={() => setDeleted(false)}
           />
         )}
       </div>
