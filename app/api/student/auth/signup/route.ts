@@ -41,8 +41,7 @@ export async function POST(req: NextRequest) {
         if (insertStudent.length === 1) {
             console.log(otp);
 
-            const mailType = "verificationMail"
-            otpVerifyEmail(otp, email, mailType)
+            otpVerifyEmail(otp, email)
             // send mail
             console.log(insertStudent[0].id);
 
