@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, Button, Chip } from "@heroui/react";
+import { Alert, Chip } from "@heroui/react";
 import React, { useEffect, useState } from "react";
 
 interface Enrollments {
@@ -15,7 +15,6 @@ interface Enrollments {
 export default function StudentEnrollmentsComp() {
   const [loading, setLoading] = useState(false);
   const [enrollments, setEnrollments] = useState<Enrollments[]>([]);
-  const [sendingMail, setSendingMail] = useState(false);
   const [mailsent, setMailSent] = React.useState(false);
 
   const title = "Email sent";
@@ -110,11 +109,16 @@ export default function StudentEnrollmentsComp() {
                   <></>
                 ) : (
                   <div>
-                    <Button
-                      color="primary"
-                      className="font-bold"
-                      size="sm"
-                      onPress={async () => {
+                    <button
+                      onClick={async (
+                        event: React.MouseEvent<HTMLButtonElement>
+                      ) => {
+                        const button = event.currentTarget;
+                        button.textContent =
+                          button.textContent === "Send mail"
+                            ? "Sending..."
+                            : "Send mail";
+
                         try {
                           await fetch(
                             `/api/admin/enrollments/send-mail-for-failed-enrollments?id=${enrollment.orderId}&name=${enrollment.studentName}&email=${enrollment.studentEmail}&courseName=${enrollment.courseName}`
@@ -125,9 +129,10 @@ export default function StudentEnrollmentsComp() {
                           console.log(error);
                         }
                       }}
+                      className="bg-blue-600 rounded-full px-4 py-1"
                     >
                       Send mail
-                    </Button>
+                    </button>
                   </div>
                 )}
               </div>
