@@ -53,10 +53,8 @@ export default function AllCoursesComp() {
 
   if (loading) {
     return(
-      <div className="flex justify-center items-center min-h-screen">
-        <div>
-          <Spinner size="lg" color="white"/>
-        </div>
+      <div className="flex justify-center items-center min-h-[90vh]">
+        <Spinner />
       </div>
     )
   }

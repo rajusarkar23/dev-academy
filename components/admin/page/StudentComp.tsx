@@ -7,7 +7,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Skeleton,
+  Spinner,
 } from "@heroui/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -60,10 +60,8 @@ export default function StudentComp() {
 
   if (loading) {
     return (
-      <div>
-        <Skeleton className="rounded-lg bg-gray-500">
-          <div className="h-8 w-40 rounded-lg bg-secondary"> loading.....</div>
-        </Skeleton>
+      <div className="flex justify-center items-center min-h-[92vh]">
+        <Spinner />
       </div>
     );
   }
