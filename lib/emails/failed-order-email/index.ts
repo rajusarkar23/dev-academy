@@ -16,7 +16,9 @@ export async function failedOrderEmail(
     },
   });
 
-  console.log(email);
+  console.log("email",email);
+  console.log(courseName);
+  
   
 
   await transporter

@@ -1,7 +1,7 @@
 "use client";
 
-import { Button, Chip } from "@heroui/react";
-import { useEffect, useState } from "react";
+import { Alert, Button, Chip } from "@heroui/react";
+import React, { useEffect, useState } from "react";
 
 interface Enrollments {
   courseId: number;
@@ -15,6 +15,11 @@ interface Enrollments {
 export default function StudentEnrollmentsComp() {
   const [loading, setLoading] = useState(false);
   const [enrollments, setEnrollments] = useState<Enrollments[]>([]);
+  const [sendingMail, setSendingMail] = useState(false);
+  const [mailsent, setMailSent] = React.useState(false);
+
+  const title = "Email sent";
+  const description = "Mail has been sent.";
 
   useEffect(() => {
     setLoading(true);
@@ -80,16 +85,26 @@ export default function StudentEnrollmentsComp() {
                   {enrollment.studentEmail}
                 </span>
               </p>
+              <p>
+                Order Id:{" "}
+                <span className="text-blue-300 font-bold">
+                  {enrollment.orderId}
+                </span>
+              </p>
             </div>
 
             <div className="flex justify-between items-center">
-              <Chip>
+              <div>
                 {enrollment.maileSend ? (
-                  <p className="font-semibold text-green-900">Mail already sent</p>
+                  <Chip className="text-gray-800" color="success">
+                    <span className="font-bold">Mail sent</span>
+                  </Chip>
                 ) : (
-                  <p className="font-semibold text-blue-900">Mail not sent yet</p>
+                  <Chip className="font-semibold text-blue-900">
+                    Mail not sent yet
+                  </Chip>
                 )}
-              </Chip>
+              </div>
               <div>
                 {enrollment.maileSend ? (
                   <></>
@@ -98,12 +113,14 @@ export default function StudentEnrollmentsComp() {
                     <Button
                       color="primary"
                       className="font-bold"
+                      size="sm"
                       onPress={async () => {
                         try {
-                          const res = await fetch(
+                          await fetch(
                             `/api/admin/enrollments/send-mail-for-failed-enrollments?id=${enrollment.orderId}&name=${enrollment.studentName}&email=${enrollment.studentEmail}&courseName=${enrollment.courseName}`
                           );
-                          console.log(await res.json());
+                          setMailSent(true);
+                          enrollment.maileSend = true;
                         } catch (error) {
                           console.log(error);
                         }
@@ -117,6 +134,19 @@ export default function StudentEnrollmentsComp() {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="top-0 fixed right-0 transition-all delay-150">
+        {mailsent && (
+          <Alert
+            color="success"
+            description={description}
+            isVisible={mailsent}
+            title={title}
+            variant="faded"
+            onClose={() => setMailSent(false)}
+          />
+        )}
       </div>
     </div>
   );

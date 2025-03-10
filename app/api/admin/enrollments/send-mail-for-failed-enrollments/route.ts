@@ -12,10 +12,13 @@ export async function GET(req: NextRequest) {
   const courseName = params.get("courseName");
 
   try {
-    failedOrderEmail(email!, name!, courseName!);
-    await db.update(Order).set({
-      orderFailedEmailSent: true,
-    }).where(eq(Order.id, Number(id)));
+    failedOrderEmail(email!, courseName!, name!);
+    await db
+      .update(Order)
+      .set({
+        orderFailedEmailSent: true,
+      })
+      .where(eq(Order.id, Number(id)));
     return NextResponse.json({
       success: true,
       message: "Email sent.",
