@@ -12,6 +12,7 @@ export async function GET() {
         seats: Course.studentCapacity,
         image: Course.courseImageURL,
         id: Course.id,
+        slug: Course.slug
       })
       .from(Course);
     return NextResponse.json({success: true, message: "Fetched", courses: getAllCourses})

@@ -51,7 +51,7 @@ export default function StudentProifle({
           as="button"
           onPress={async () => {
             await deleteCookie();
-            router.refresh();
+            router.push("/");
           }}
         >
           Logout

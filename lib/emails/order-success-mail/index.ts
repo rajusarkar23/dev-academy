@@ -18,7 +18,7 @@ export async function orderSuccessEmail(
 
   await transporter
     .sendMail({
-      from: sender,
+      from: '"Dev Academy" <rsa22027@gmail.com>',
       to: email,
       replyTo: sender,
       subject: `Enrollment confirmation.`,

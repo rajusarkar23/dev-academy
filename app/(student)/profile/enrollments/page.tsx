@@ -1,15 +1,11 @@
-import { getProfileDetails } from '@/app/actions/get-student-profile-details/action'
-import EnrollmentsComp from '@/components/student/EnrollmentsComp'
+import EnrollmentsComp from "@/components/student/EnrollmentsComp";
 
-const Enrollments = async () => {
-    const data = await getProfileDetails()
-    const enrollments = data.studentDetails.courses
-    
+const Enrollments = () => {
   return (
     <div>
-        <EnrollmentsComp enrolled={enrollments}/>
+      <EnrollmentsComp />
     </div>
-  )
-}
+  );
+};
 
-export default Enrollments
+export default Enrollments;

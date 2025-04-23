@@ -18,7 +18,7 @@ export async function failedOrderEmail(
 
   await transporter
     .sendMail({
-      from: sender,
+      from: '"Dev Academy" <rsa22027@gmail.com>',
       to: email,
       replyTo: sender,
       subject: `From dev academy: complete your purchase.`,

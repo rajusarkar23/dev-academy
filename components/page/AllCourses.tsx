@@ -14,6 +14,7 @@ interface Course {
   instructor: string;
   seats: number;
   image: string;
+  slug: string
 }
 
 export default function AllCourses() {
@@ -108,7 +109,7 @@ export default function AllCourses() {
                     <div className="inset-x-0 bottom-0 absolute h-12 justify-center flex">
                       <div className="space-x-4">
                         <Link
-                          href={"/"}
+                          href={`/course/${course.slug}`}
                           className="px-6 py-2 bg-blue-500 rounded-lg font-bold"
                         >
                           Join

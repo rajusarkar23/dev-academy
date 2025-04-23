@@ -1,24 +1,24 @@
-import nodemailer from "nodemailer"
+import nodemailer from "nodemailer";
 
 export async function otpVerifyEmail(otp: string, email: string) {
+  const sender = process.env.NODEMAILER_EMAIL;
+  const password = process.env.NODEMAILER_EMAIL_PASSWORD;
 
-    const sender = process.env.NODEMAILER_EMAIL;
-    const password = process.env.NODEMAILER_EMAIL_PASSWORD;
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: sender,
+      pass: password,
+    },
+  });
 
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: sender,
-            pass: password
-        }
-    })
-
-    await transporter.sendMail({
-        from: sender,
-        to: email,
-        replyTo: sender,
-        subject: `Your email verification OTP`,
-        html: `
+  await transporter
+    .sendMail({
+      from: '"Dev Academy" <rsa22027@gmail.com>',
+      to: email,
+      replyTo: sender,
+      subject: `Your email verification OTP`,
+      html: `
         <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 0; margin: 0; width: 100%; height: 100%;">
        <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%; height: 100%; background-color: #f4f4f4; text-align: center;">
          <tr>
@@ -38,7 +38,8 @@ export async function otpVerifyEmail(otp: string, email: string) {
          </tr>
        </table>
      </div>`,
-    }).catch((error) => {
-        console.log(error);
     })
+    .catch((error) => {
+      console.log(error);
+    });
 }

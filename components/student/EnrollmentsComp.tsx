@@ -1,6 +1,10 @@
+"use client"
+
 import { Button, Chip } from "@heroui/react";
 import { UserPen } from "lucide-react";
 import Image from "next/legacy/image";
+import { useEffect, useState } from "react";
+import { getProfileDetails } from '@/app/actions/get-student-profile-details/action'
 
 interface courses {
   courseName: string;
@@ -12,7 +16,24 @@ interface courses {
   imageUrl: string;
 }
 
-export default function EnrollmentsComp({ enrolled }: { enrolled: courses[] }) {
+export default function EnrollmentsComp() {
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [enrollments, setEnrollmenets] = useState<courses[]>([])
+
+  useEffect(() => {
+    const fetchProfileDetails = async () => {
+      setIsLoading(true)
+      const data = await getProfileDetails()
+      setEnrollmenets(data.studentDetails.courses)
+      setIsLoading(false)
+    }
+    fetchProfileDetails()
+  }, [])
+
+  if (isLoading) {
+    return <div>loading...</div>
+  }
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950 px-4 py-10">
@@ -20,12 +41,12 @@ export default function EnrollmentsComp({ enrolled }: { enrolled: courses[] }) {
         <h2 className="text-3xl font-bold">
             Your enrollments
             {
-              enrolled.length === 0 && (<p className="text-sm text-yellow-300">You have not yet enrolled for any course.</p>)
+              enrollments.length === 0 && (<p className="text-sm text-yellow-300">You have not yet enrolled for any course.</p>)
             }
         </h2>
       </div>
       <div className="mx-auto w-full max-w-4xl grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {enrolled.length !==0 && enrolled.map((items, index) => (
+        {enrollments.length !==0 && enrollments.map((items, index) => (
           <div className="bg-white/80 rounded" key={index}>
             <div className="p-4">
               <Image
