@@ -1,1 +1,0 @@
-ALTER TABLE "student" ALTER COLUMN "profile_image_url" SET DEFAULT 'https://pub-367a5b1b28f9415dae5b51f69d042dff.r2.dev/145857007_307ce493-b254-4b2d-8ba4-d12c080d6651.svg';

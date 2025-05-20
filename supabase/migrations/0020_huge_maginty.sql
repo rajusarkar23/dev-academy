@@ -1,1 +1,0 @@
-ALTER TABLE "order" ADD COLUMN "order_success_email_sent" boolean DEFAULT false;

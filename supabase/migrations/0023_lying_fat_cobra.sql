@@ -1,1 +1,0 @@
-ALTER TABLE "student" ALTER COLUMN "profile_image_url" SET NOT NULL;

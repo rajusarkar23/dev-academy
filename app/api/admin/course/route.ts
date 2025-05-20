@@ -4,6 +4,7 @@ import adminSession from "@/lib/cookie-session/admin-session";
 import { db } from "@/lib/db/db";
 import { Course } from "@/lib/schema/schema";
 
+// create a new course
 export async function POST(req: NextRequest) {
   const {
     courseName,
@@ -67,6 +68,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// get all course
 export async function GET() {
   const admin = await adminSession();
   //@ts-expect-error, adminDetails available
@@ -86,7 +88,7 @@ export async function GET() {
       .where(eq(Course.createdBy, id));
 
     if (getAllCourses.length === 0) {
-      return NextResponse.json({ message: "No course found" });
+      return NextResponse.json({success: false, message: "No course found" });
     }
 
     return NextResponse.json({

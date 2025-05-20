@@ -12,19 +12,21 @@ import { otpVerifyEmail } from "@/lib/emails/otp-verification-email";
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
 
+  // return err if req fields are empty
   if (!email || !password) {
     return NextResponse.json({
       success: false,
-      message: "Email?/Password not defined.",
+      message: "Email/Password not defined.",
     });
   }
 
   try {
+    // check if admin exists
     const checkIfAdminExist = await db
       .select()
       .from(Admin)
       .where(eq(Admin.email, email));
-
+    // if exists return err
     if (checkIfAdminExist.length !== 0) {
       return NextResponse.json({
         success: false,
@@ -39,7 +41,7 @@ export async function POST(req: NextRequest) {
     const otp = generateOTP(6);
     const hashedOTP = bcrypt.hashSync(otp, 10);
 
-    //create user
+    //create admin
     const insertAdmin = await db
       .insert(Admin)
       .values({
@@ -48,7 +50,7 @@ export async function POST(req: NextRequest) {
         otp: hashedOTP,
       })
       .returning();
-
+      // if create success
     if (insertAdmin.length === 1) {
       console.log(otp);
       otpVerifyEmail(otp, email);
@@ -66,6 +68,8 @@ export async function POST(req: NextRequest) {
       // return response
       return NextResponse.json({ success: true, message: "Admin registered." });
     }
+
+    // else return err res
     return NextResponse.json({
       success: false,
       message: "Something went wrong in admin creation, try agin.",

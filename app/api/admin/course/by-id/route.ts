@@ -3,6 +3,7 @@ import { Course } from "@/lib/schema/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
+// get a course by id
 export async function POST(req: NextRequest) {
   const { id } = await req.json();
 
@@ -13,7 +14,7 @@ export async function POST(req: NextRequest) {
       .where(eq(Course.id, id));
 
     if (findCourseById.length === 0) {
-      return NextResponse.json({ message: "No course found" });
+      return NextResponse.json({success: false, message: "No course found" });
     }
 
     return NextResponse.json({
@@ -23,7 +24,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.log(error);
-
     return NextResponse.json({
       success: false,
       message: "Something went wrong",
@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// update a course by id
 export async function PATCH(req: NextRequest) {
   const {
     courseName,
@@ -81,6 +82,7 @@ export async function PATCH(req: NextRequest) {
   }
 }
 
+// delete a courxe by id
 export async function DELETE(req: NextRequest) {
   const { id } = await req.json();
 
@@ -109,30 +111,30 @@ export async function DELETE(req: NextRequest) {
     });
   }
 }
+// NOT IN USE ANYMORE
+// export async function GET(req: NextRequest) {
+//   const params = req.nextUrl.searchParams;
+//   const id = params.get("id");
 
-export async function GET(req: NextRequest) {
-  const params = req.nextUrl.searchParams;
-  const id = params.get("id");
+//   try {
+//     const getallCourse = await db
+//       .select()
+//       .from(Course)
+//       .where(eq(Course.id, Number(id)));
 
-  try {
-    const getallCourse = await db
-      .select()
-      .from(Course)
-      .where(eq(Course.id, Number(id)));
+//     if (getallCourse.length === 0) {
+//       return NextResponse.json({
+//         success: false,
+//         message: "No course found with this ids",
+//       });
+//     }
 
-    if (getallCourse.length === 0) {
-      return NextResponse.json({
-        success: false,
-        message: "No course found with this ids",
-      });
-    }
-
-    return NextResponse.json({ success: true, courses: getallCourse });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({
-      success: false,
-      message: "Something went wrong, try again",
-    });
-  }
-}
+//     return NextResponse.json({ success: true, courses: getallCourse });
+//   } catch (error) {
+//     console.log(error);
+//     return NextResponse.json({
+//       success: false,
+//       message: "Something went wrong, try again",
+//     });
+//   }
+// }
