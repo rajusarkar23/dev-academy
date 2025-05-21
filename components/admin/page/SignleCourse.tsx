@@ -14,7 +14,7 @@ import {
   Spinner,
   useDisclosure,
 } from "@heroui/react";
-import { Upload } from "lucide-react";
+import { RefreshCcw, Upload } from "lucide-react";
 import Image from "next/legacy/image";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -36,10 +36,20 @@ interface Course {
   studentCapacity: string;
 }
 
+interface Video {
+  title: string;
+  videoUrl: string;
+  videoOrder: number;
+}
+
 export default function SingleCourse() {
   const [course, setCourse] = useState<Course[]>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  // show video comp states
+  const [videos, setvideos] = useState<Video[]>([]);
+  const [isFetchingVideos, setIsfetchingVideos] = useState<boolean>(false);
 
   const id = useParams().id;
 
@@ -108,6 +118,10 @@ export default function SingleCourse() {
 
     const [videoUrl, setVideoUrl] = useState<string>("");
     const [videoUploading, setVideoUploading] = useState(false);
+    const [title, setTitle] = useState<string>("");
+    const [videoOrder, setVideoOrder] = useState<string>("");
+    console.log(title);
+    console.log(videoOrder);
 
     return (
       <>
@@ -133,12 +147,13 @@ export default function SingleCourse() {
                       placeholder="Enter video title eg: Video no: 1 of abcd, understand basic of abcd"
                       labelPlacement="inside"
                       type="text"
+                      onChange={(e) => setTitle(e.target.value)}
                     />
 
-                    <NumberInput
+                    <Input
                       label="Video order"
-                      hideStepper
                       placeholder="Enter video order"
+                      onChange={(e) => setVideoOrder(e.target.value)}
                     />
                   </div>
                   <div>
@@ -197,7 +212,12 @@ export default function SingleCourse() {
 
                   <div className="flex justify-center">
                     {videoUrl.length !== 0 && (
-                      <video controls width={400} height={300} className="rounded">
+                      <video
+                        controls
+                        width={400}
+                        height={300}
+                        className="rounded"
+                      >
                         <source src={videoUrl} type="video/mp4" />
                       </video>
                     )}
@@ -207,8 +227,26 @@ export default function SingleCourse() {
                   <Button color="danger" variant="light" onPress={onClose}>
                     Close
                   </Button>
-                  <Button color="primary" onPress={onClose}>
-                    Action
+                  <Button
+                    color="primary"
+                    onPress={async () => {
+                      try {
+                        const sendReq = await fetch("/api/video/add", {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            videoUrl,
+                            title,
+                            videoOrder: Number(videoOrder),
+                            courseId: id,
+                          }),
+                        });
+                      } catch (error) {}
+                    }}
+                  >
+                    Submit
                   </Button>
                 </ModalFooter>
               </>
@@ -218,6 +256,28 @@ export default function SingleCourse() {
       </>
     );
   }
+
+  // fetch videos
+  const handleVideoFetch = async () => {
+    try {
+      setIsfetchingVideos(true);
+      const sendReq = await fetch(`/api/video/fetch?refCourse=${id}`, {
+        method: "GET",
+      });
+
+      const res = await sendReq.json();
+      if (res.success) {
+        console.log("ean");
+
+        setIsfetchingVideos(false);
+        setvideos(res.videos);
+      } else {
+        setIsfetchingVideos(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="py-4">
@@ -257,6 +317,60 @@ export default function SingleCourse() {
 
                 <div>
                   <VideoUploadModal />
+                </div>
+                <div>
+                  {videos.length === 0 && (
+                    <div className="flex items-center justify-center">
+                      <p className="text-lg font-bold">No videos avaialble</p>
+                      <div
+                        className="ml-1 hover:cursor-pointer select-none"
+                        onClick={handleVideoFetch}
+                      >
+                        <RefreshCcw
+                          size={18}
+                          className={`${
+                            isFetchingVideos ? "animate-spin" : ""
+                          }`}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  <div>
+                     <div
+                        className="ml-1 hover:cursor-pointer select-none"
+                        onClick={handleVideoFetch}
+                      >
+                        <RefreshCcw
+                          size={18}
+                          className={`${
+                            isFetchingVideos ? "animate-spin" : ""
+                          }`}
+                        />
+                      </div>
+                    {videos.length > 0 && (
+                      <div>
+                        {videos.map((video, index) => (
+                          <div>
+                            <div>
+                              <video controls className="rounded">
+                                <source
+                                  src={video.videoUrl}
+                                  width={400}
+                                  height={300}
+                                />
+                              </video>
+                            </div>
+
+                            <div>
+                              <p>{video.title}</p>
+                              <p>{video.videoOrder}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
