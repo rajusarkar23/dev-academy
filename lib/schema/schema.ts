@@ -87,3 +87,15 @@ export const Order = pgTable("order", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
 });
+
+export const Videos = pgTable("video", {
+  id: serial("id").primaryKey(),
+  videoUrl: text("video_url").notNull(),
+  courseRef: integer("course_ref")
+    .notNull()
+    .references(() => Course.id, { onDelete: "cascade" }),
+  videoTitle: text("video_title").notNull(),
+  videoOrder: integer("video_order").notNull(),
+  createdAt: timestamp("created_At").defaultNow(),
+  updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
+});

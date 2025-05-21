@@ -37,6 +37,8 @@ export default function AddNewCourse() {
   const [courseDescription, setCourseDescription] = useState("");
   const [name, setName] = useState("");
 
+  const [imageUploading, setImageUploading] = useState(false)
+
   const [loading, setLoading] = useState(false);
 
   const setSlug = async () => {
@@ -89,6 +91,7 @@ export default function AddNewCourse() {
     formData.append("file", selectedFile);
 
     try {
+      setImageUploading(true)
       const res = await fetch("/api/media-upload", {
         method: "POST",
         body: formData,
@@ -100,17 +103,15 @@ export default function AddNewCourse() {
         if (e.target.id === "image") {
           console.log("file was a image type");
           setValue("courseImageURL", response.url);
-        }
-
-        if (e.target.id === "video") {
-          console.log("it was a video type");
-          setValue("courseVideoURL", response.url);
+          setImageUploading(false)
         }
       } else {
         console.log("no file");
+        setImageUploading(false)
       }
     } catch (error) {
       console.log(error);
+      setImageUploading(false)
     }
   };
 
@@ -256,18 +257,30 @@ export default function AddNewCourse() {
           </div>
         </div>
 
-        <div className="flex flex-row space-x-3">
+        <div className="flex flex-row space-x-3 items-center justify-center">
           <div className="w-full">
             <label className="font-semibold text-sm text-gray-300">
               Upload course image:
             </label>
             <Input id="image" type="file" onChange={handleFileUpload} />
+            <div className="flex items-center">{imageUploading && (<>Uploading... <Spinner size="sm"/></>)}</div>
           </div>
           <div className="w-full">
             <label className="font-semibold text-sm text-gray-300">
-              Upload course video:
+              Course Price: eg- 100
             </label>
-            <Input id="video" type="file" onChange={handleFileUpload} />
+            <Input
+              label="Course price"
+              labelPlacement="inside"
+              {...register("coursePrice", {
+                required: "Course price is required",
+              })}
+            />
+            {errors && (
+              <p className="text-sm text-red-500">
+                {errors.coursePrice?.message}
+              </p>
+            )}
           </div>
         </div>
 
@@ -279,24 +292,6 @@ export default function AddNewCourse() {
             content={courseDescription}
             setContent={setCourseDescription}
           />
-        </div>
-
-        <div>
-          <label className="font-semibold text-sm text-gray-300">
-            Course Price: eg- 1000{" "}
-          </label>
-          <Input
-            label="Course price"
-            labelPlacement="inside"
-            {...register("coursePrice", {
-              required: "Course price is required",
-            })}
-          />
-          {errors && (
-            <p className="text-sm text-red-500">
-              {errors.coursePrice?.message}
-            </p>
-          )}
         </div>
 
         <div>

@@ -36,7 +36,7 @@ export default function SignupComp() {
 
             if (response.success === true) {
                 setLoading(false)
-                router.push("/admin/auth/verify-otp")
+                router.push("/admin-auth/verify-otp")
             } else {
                 setLoading(false)
                 setError(true)
