@@ -10,14 +10,13 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  NumberInput,
   Spinner,
   useDisclosure,
 } from "@heroui/react";
 import { RefreshCcw, Upload } from "lucide-react";
 import Image from "next/legacy/image";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface Course {
   courseDescription: string;
@@ -40,6 +39,7 @@ interface Video {
   title: string;
   videoUrl: string;
   videoOrder: number;
+  videoId: number;
 }
 
 export default function SingleCourse() {
@@ -51,7 +51,12 @@ export default function SingleCourse() {
   const [videos, setvideos] = useState<Video[]>([]);
   const [isFetchingVideos, setIsfetchingVideos] = useState<boolean>(false);
 
+  const [firstVideo, setFirstVideo] = useState<string>("");
+  const [firstVideoTitle, setFirstVideoTitle] = useState<string>("");
+
   const id = useParams().id;
+
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // get course by id
   useEffect(() => {
@@ -80,7 +85,14 @@ export default function SingleCourse() {
         setLoading(false);
       }
     })();
+    handleVideoFetch();
   }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  }, [firstVideo]);
 
   // edit btn click
   const handleEditButtonClick = () => {
@@ -120,8 +132,6 @@ export default function SingleCourse() {
     const [videoUploading, setVideoUploading] = useState(false);
     const [title, setTitle] = useState<string>("");
     const [videoOrder, setVideoOrder] = useState<string>("");
-    console.log(title);
-    console.log(videoOrder);
 
     return (
       <>
@@ -243,7 +253,17 @@ export default function SingleCourse() {
                             courseId: id,
                           }),
                         });
-                      } catch (error) {}
+                        const res = await sendReq.json();
+
+                        if (res.success) {
+                          await handleVideoFetch();
+                          onClose();
+                        } else {
+                          console.log(res);
+                        }
+                      } catch (error) {
+                        console.log(error);
+                      }
                     }}
                   >
                     Submit
@@ -267,10 +287,12 @@ export default function SingleCourse() {
 
       const res = await sendReq.json();
       if (res.success) {
-        console.log("ean");
-
         setIsfetchingVideos(false);
-        setvideos(res.videos);
+        const videos: Video[] = res.videos;
+        const videoByOrder = videos.sort((a, b) => a.videoOrder - b.videoOrder);
+        setFirstVideo(videoByOrder[0].videoUrl);
+        setFirstVideoTitle(videoByOrder[0].title);
+        setvideos(videoByOrder);
       } else {
         setIsfetchingVideos(false);
       }
@@ -309,7 +331,6 @@ export default function SingleCourse() {
                 </Button>
               </div>
               {/* video section */}
-
               <div>
                 <h3 className="text-4xl font-semibold underline underline-offset-4">
                   Videos:-
@@ -318,58 +339,129 @@ export default function SingleCourse() {
                 <div>
                   <VideoUploadModal />
                 </div>
-                <div>
-                  {videos.length === 0 && (
-                    <div className="flex items-center justify-center">
-                      <p className="text-lg font-bold">No videos avaialble</p>
-                      <div
-                        className="ml-1 hover:cursor-pointer select-none"
-                        onClick={handleVideoFetch}
-                      >
-                        <RefreshCcw
-                          size={18}
-                          className={`${
-                            isFetchingVideos ? "animate-spin" : ""
-                          }`}
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  <div>
-                     <div
-                        className="ml-1 hover:cursor-pointer select-none"
-                        onClick={handleVideoFetch}
-                      >
-                        <RefreshCcw
-                          size={18}
-                          className={`${
-                            isFetchingVideos ? "animate-spin" : ""
-                          }`}
-                        />
-                      </div>
-                    {videos.length > 0 && (
-                      <div>
-                        {videos.map((video, index) => (
+                <div className="bg-default-300 rounded-lg text-black py-2">
+                  <div className="px-4 mx-auto max-w-xl">
+                    {videos.length !== 0 && !isFetchingVideos && (
+                      <>
+                        <div className="flex flex-col justify-center items-center">
                           <div>
-                            <div>
-                              <video controls className="rounded">
-                                <source
-                                  src={video.videoUrl}
-                                  width={400}
-                                  height={300}
-                                />
-                              </video>
-                            </div>
-
-                            <div>
-                              <p>{video.title}</p>
-                              <p>{video.videoOrder}</p>
-                            </div>
+                            <video
+                              controls
+                              width={"550px"}
+                              height={"450px"}
+                              className="rounded-t-lg"
+                              ref={videoRef}
+                            >
+                              <source src={firstVideo} type="video/mp4" />
+                            </video>
                           </div>
-                        ))}
+                        </div>
+                        <div>
+                          <p className="text-lg px-2 font-semibold bg-blue-500 capitalize rounded-b-lg">
+                            {firstVideoTitle}
+                          </p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div className="max-w-xl mx-auto px-4">
+                    {videos.length === 0 && isFetchingVideos && (
+                      <div className="flex items-center justify-center">
+                        <p className="text-lg font-bold">No videos avaialble</p>
+                        <div
+                          className="ml-1 hover:cursor-pointer select-none"
+                          onClick={handleVideoFetch}
+                        >
+                          <RefreshCcw
+                            size={18}
+                            className={`${
+                              isFetchingVideos ? "animate-spin" : ""
+                            }`}
+                          />
+                        </div>
                       </div>
                     )}
+
+                    <div>
+                      {videos.length > 0 && (
+                        <div>
+                          <div
+                            className="ml-1 hover:cursor-pointer select-none"
+                            onClick={handleVideoFetch}
+                          >
+                            <RefreshCcw
+                              size={18}
+                              className={`${
+                                isFetchingVideos ? "animate-spin" : ""
+                              }`}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            {videos.map((video, index) => (
+                              <div
+                                key={index}
+                                className={`shadow-md rounded-lg flex justify-between items-center pr-2 border-black hover:cursor-pointer ${
+                                  firstVideo === video.videoUrl
+                                    ? "bg-primary-200"
+                                    : ""
+                                }`}
+                                onClick={() => {
+                                  setFirstVideo(video.videoUrl);
+                                  setFirstVideoTitle(video.title);
+                                }}
+                              >
+                                <div>
+                                  <video
+                                    className="rounded"
+                                    width={"100px"}
+                                    height={"80px"}
+                                  >
+                                    <source
+                                      src={video.videoUrl}
+                                      type="video/mp4"
+                                    />
+                                  </video>
+                                </div>
+
+                                <div className="ml-4">
+                                  <p>{video.title}</p>
+                                </div>
+                                <div>
+                                  <Button
+                                    color="danger"
+                                    variant="flat"
+                                    className="hover:bg-danger-600 hover:text-white"
+                                    onPress={async () => {
+                                      try {
+                                        const sendReq = await fetch(
+                                          `/api/video/delete?id=${video.videoId}`,
+                                          {
+                                            method: "DELETE",
+                                          }
+                                        );
+
+                                        const res = await sendReq.json();
+
+                                        if (res.success) {
+                                          handleVideoFetch();
+                                          return;
+                                        } else {
+                                          console.log(res);
+                                        }
+                                      } catch (error) {
+                                        console.log(error);
+                                      }
+                                    }}
+                                  >
+                                    Delete
+                                  </Button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

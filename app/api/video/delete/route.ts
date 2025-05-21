@@ -3,25 +3,24 @@ import { Videos } from "@/lib/schema/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest){
+export async function DELETE(req: NextRequest){
     const url = req.nextUrl
 
-    const courseRef = url.searchParams.get("refCourse")
+    const id  = url.searchParams.get("id")
 
     try {
-        const fetchVideoByVideoRef = await db.select({videoUrl: Videos.videoUrl, videoOrder: Videos.videoOrder, title: Videos.videoTitle, videoId: Videos.id}).from(Videos).where(eq(Videos.courseRef, Number(courseRef)))
+        const deleteAVideo = await db.delete(Videos).where(eq(Videos.id, Number(id))).returning()
 
-        if (fetchVideoByVideoRef.length === 0) {
+        if (deleteAVideo.length !== 1) {
             return NextResponse.json({
                 success: false,
-                message: "No video found for this course"
+                message: "Unable to delete this videp,"
             })
         }
 
         return NextResponse.json({
             success: true,
-            message: "Videos found",
-            videos: fetchVideoByVideoRef
+            message: "Video deleted successfully"
         })
     } catch (error) {
         console.log(error);
@@ -30,5 +29,4 @@ export async function GET(req: NextRequest){
             message: "Internal server error"
         })
     }
-    
 }
