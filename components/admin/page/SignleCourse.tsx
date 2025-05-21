@@ -2,12 +2,22 @@
 
 import { deleteCourse } from "@/app/actions/delete-course/action";
 import { Button } from "@heroui/button";
-import { Chip, Input, Spinner } from "@heroui/react";
+import {
+  Chip,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  NumberInput,
+  Spinner,
+  useDisclosure,
+} from "@heroui/react";
+import { Upload } from "lucide-react";
 import Image from "next/legacy/image";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-
-import ReactPlayer from "react-player";
+import React, { useEffect, useState } from "react";
 
 interface Course {
   courseDescription: string;
@@ -28,44 +38,46 @@ interface Course {
 
 export default function SingleCourse() {
   const [course, setCourse] = useState<Course[]>([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const id = useParams().id;
-  const getCourseById = async () => {
-    try {
-      setLoading(true)
-      const res = await fetch("/api/admin/course/by-id", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      });
 
-      const response = await res.json();
-
-      if (response.success === true) {
-        setCourse(response.course);
-        setLoading(false)
-      } else {
-        console.log(response);
-        setLoading(false)
-      }
-    } catch (error) {
-      console.log(error);
-      setLoading(false)
-    }
-  };
-
+  // get course by id
   useEffect(() => {
-    getCourseById();
+    (async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/admin/course/by-id", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
+        });
+
+        const response = await res.json();
+
+        if (response.success === true) {
+          setCourse(response.course);
+          setLoading(false);
+        } else {
+          console.log(response);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    })();
   }, []);
 
+  // edit btn click
   const handleEditButtonClick = () => {
     router.push(`/admin/dashboard/courses/edit/${course[0].id}`);
   };
 
+  // handle delete of a course
   const handleDelete = async () => {
     const data = await deleteCourse(Number(id));
     if (data.success === true) {
@@ -73,15 +85,105 @@ export default function SingleCourse() {
     }
   };
 
-
+  // if data loading
   if (loading) {
-    return(
+    return (
       <div className="flex justify-center items-center min-h-screen">
         <div>
-          <Spinner size="lg" color="white"/>
+          <Spinner size="lg" color="white" />
         </div>
       </div>
-    )
+    );
+  }
+
+  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    const file = e.target.files?.[0];
+    if (!file) {
+      console.log("No file selected");
+      return;
+    }
+    const form = new FormData();
+    form.append("file", file);
+
+    try {
+      const sendReq = await fetch("/api/media-upload/video", {
+        method: "POST",
+        body: form,
+      });
+
+      console.log(await sendReq.json());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // video upload modal
+  function VideoUploadModal() {
+    // modal states
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    // handle modal open
+    const handleOpen = () => {
+      onOpen();
+    };
+
+    return (
+      <>
+        <div className="flex flex-wrap gap-3 py-2">
+          <Button
+            onPress={() => handleOpen()}
+            className="w-full text-lg font-bold"
+          >
+            Upload Course Videos <Upload />
+          </Button>
+        </div>
+        <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1 text-black">
+                  Upload a new video for this course
+                </ModalHeader>
+                <ModalBody className="text-black">
+                  <div className="space-y-2">
+                    <Input
+                      label="Video title"
+                      placeholder="Enter video title eg: Video no: 1 of abcd, understand basic of abcd"
+                      labelPlacement="inside"
+                      type="text"
+                    />
+
+                    <NumberInput
+                      label="Video order"
+                      hideStepper
+                      placeholder="Enter video order"
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      type="file"
+                      label="Select a video file"
+                      accept="video/mkv"
+                      onChange={handleVideoUpload}
+                    />
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    Close
+                  </Button>
+                  <Button color="primary" onPress={onClose}>
+                    Action
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+      </>
+    );
   }
 
   return (
@@ -113,29 +215,15 @@ export default function SingleCourse() {
                   Edit
                 </Button>
               </div>
+              {/* video section */}
 
-              <div className="pt-4 space-y-2">
-                <p className="text-5xl font-bold">Videos:</p>
-                <div>
-                  <p className="font-bold text-gray-400">
-                    You can upload video from here:
-                  </p>
-
-                  <div>
-                    <Input type="file" className="w-64" />
-                  </div>
-                </div>
+              <div>
+                <h3 className="text-4xl font-semibold underline underline-offset-4">
+                  Videos:-
+                </h3>
 
                 <div>
-                  <p className="font-bold">Uploaded videos for this course:</p>
-
-                  <ReactPlayer
-                    url="https://pub-367a5b1b28f9415dae5b51f69d042dff.r2.dev/18872865-hd_1920_1080_30fps.mp4" // Change this to your MKV file URL
-                    playing={false}
-                    controls
-                    width="400px"
-                    height="250px"
-                  />
+                  <VideoUploadModal />
                 </div>
               </div>
             </div>
