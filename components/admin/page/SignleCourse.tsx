@@ -96,29 +96,6 @@ export default function SingleCourse() {
     );
   }
 
-  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-
-    const file = e.target.files?.[0];
-    if (!file) {
-      console.log("No file selected");
-      return;
-    }
-    const form = new FormData();
-    form.append("file", file);
-
-    try {
-      const sendReq = await fetch("/api/media-upload/video", {
-        method: "POST",
-        body: form,
-      });
-
-      console.log(await sendReq.json());
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   // video upload modal
   function VideoUploadModal() {
     // modal states
@@ -128,6 +105,9 @@ export default function SingleCourse() {
     const handleOpen = () => {
       onOpen();
     };
+
+    const [videoUrl, setVideoUrl] = useState<string>("");
+    const [videoUploading, setVideoUploading] = useState(false);
 
     return (
       <>
@@ -166,8 +146,61 @@ export default function SingleCourse() {
                       type="file"
                       label="Select a video file"
                       accept="video/mkv"
-                      onChange={handleVideoUpload}
+                      onChange={async (
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        e.preventDefault();
+
+                        const file = e.target.files?.[0];
+                        if (!file) {
+                          console.log("No file selected");
+                          return;
+                        }
+                        const form = new FormData();
+                        form.append("file", file);
+
+                        try {
+                          setVideoUploading(true);
+                          setVideoUrl("");
+                          const sendReq = await fetch(
+                            "/api/media-upload/video",
+                            {
+                              method: "POST",
+                              body: form,
+                            }
+                          );
+
+                          const res = await sendReq.json();
+
+                          if (res.success) {
+                            setVideoUploading(false);
+                            setVideoUrl(res.videoUrl);
+                            return;
+                          } else {
+                            setVideoUploading(false);
+                          }
+                        } catch (error) {
+                          console.error(error);
+                          setVideoUploading(false);
+                        }
+                      }}
                     />
+
+                    <div className="flex items-center ml-1">
+                      {videoUploading && (
+                        <p className="text-xs font-semibold text-blue-600 flex items-center">
+                          Uploading... <Spinner size="sm" />
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex justify-center">
+                    {videoUrl.length !== 0 && (
+                      <video controls width={400} height={300} className="rounded">
+                        <source src={videoUrl} type="video/mp4" />
+                      </video>
+                    )}
                   </div>
                 </ModalBody>
                 <ModalFooter>

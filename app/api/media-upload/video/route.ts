@@ -18,13 +18,13 @@ export async function POST(req: NextRequest){
     const formData = await req.formData()
     const file = (formData.get("file") as File) || null
 
-    const fileName = file.name.replace(" ", "-")
+    const fileName = file.name.replace(" ", "-").replace(".mkv","")
 
     const uploadParams = {
         Bucket: `${process.env.CLOUDFLARE_BUCKET_NAME}`,
         Key:fileName,
         Body: Buffer.from (await file.arrayBuffer()),
-        ContentType: file.type
+        ContentType:"video/mp4"
     }
 
     try {
