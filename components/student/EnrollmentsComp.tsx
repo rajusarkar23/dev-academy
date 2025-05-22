@@ -1,10 +1,16 @@
-"use client"
+"use client";
 
-import { Button, Chip } from "@heroui/react";
-import { UserPen } from "lucide-react";
-import Image from "next/legacy/image";
+import {
+  Button,
+  Card,
+  Spinner,
+  Image,
+  CardFooter,
+} from "@heroui/react";
+import { BookOpenCheck, MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getProfileDetails } from '@/app/actions/get-student-profile-details/action'
+import { getProfileDetails } from "@/app/actions/get-student-profile-details/action";
+import { useRouter } from "next/navigation";
 
 interface courses {
   courseName: string;
@@ -17,59 +23,109 @@ interface courses {
 }
 
 export default function EnrollmentsComp() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [enrollments, setEnrollmenets] = useState<courses[]>([]);
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [enrollments, setEnrollmenets] = useState<courses[]>([])
+  const router = useRouter();
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchProfileDetails = async () => {
-      setIsLoading(true)
-      const data = await getProfileDetails()
-      setEnrollmenets(data.studentDetails.courses)
-      setIsLoading(false)
-    }
-    fetchProfileDetails()
-  }, [])
+      const data = await getProfileDetails();
+      setEnrollmenets(data.studentDetails.courses);
+      setIsLoading(false);
+    };
+    fetchProfileDetails();
+  }, []);
 
-  if (isLoading) {
-    return <div>loading...</div>
-  }
-  
+  // if (isLoading) {
+  //   return <div>loading...</div>
+  // }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950 px-4 py-10">
-      <div className="flex justify-center mb-16">
-        <h2 className="text-3xl font-bold">
-            Your enrollments
-            {
-              enrollments.length === 0 && (<p className="text-sm text-yellow-300">You have not yet enrolled for any course.</p>)
-            }
-        </h2>
+    <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950">
+      <div className="bg-default-300 w-full flex items-center space-x-2 pl-10 shadow-sm shadow-white">
+        <div>
+          <MoveLeft
+            size={38}
+            color="black"
+            onClick={() => router.push("/")}
+            className="hover:cursor-pointer"
+          />
+        </div>
+        <div>
+          <h3 className="text-black text-2xl font-semibold">
+            Your Enrollments
+          </h3>
+        </div>
       </div>
-      <div className="mx-auto w-full max-w-4xl grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {enrollments.length !==0 && enrollments.map((items, index) => (
-          <div className="bg-white/80 rounded" key={index}>
-            <div className="p-4">
-              <Image
-                src={items.imageUrl}
-                alt={items.courseName}
-                width={700}
-                height={500}
-                className="rounded"
-              />
-              <div className="bg-white px-2 rounded">
-                <p className="text-black font-bold">Course: <span className="text-gray-700">{items.courseName}</span></p>
-                <p className="text-black font-bold">Starts on: <span className="text-gray-700">{items.startingDate}</span></p>
-                <p className="text-black font-bold">Ends on: <span className="text-gray-700">{items.endDate}</span></p>
-                <div>
-                  <span><Chip startContent={<UserPen size={22}/>} color="warning" className="px-2"><p className="font-semibold text-gray-700/80">{items.instructor}</p></Chip></span>
-              <div className="p-2">
-                <Button className="w-full font-bold" color="primary">Visit course page</Button>
-              </div>
-                </div>
-              </div>
-            </div>
+
+      <div>
+        {isLoading && (
+          <div className="min-h-[90vh] flex justify-center items-center">
+            <Spinner />
           </div>
-        ))}
+        )}
+      </div>
+
+      <div>
+        {enrollments.length === 0 && (
+          <div className="flex justify-center items-center min-h-[90vh]">
+            <p>You do&#39;nt have any enrollments yet.</p>
+          </div>
+        )}
+      </div>
+      {/* NEW CARD */}
+      <div>
+        {enrollments.length !== 0 && (
+          <div className="p-2">
+            {enrollments.map((enrollment, index) => (
+              <Card
+                isFooterBlurred
+                className="max-w-md h-[300px] col-span-12 sm:col-span-7"
+                key={index}
+              >
+                <Image
+                  removeWrapper
+                  alt="Relaxing app background"
+                  className="z-0 w-[500px] h-[270px] object-cover"
+                  src={enrollment.imageUrl}
+                />
+                <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100">
+                  <div className="flex flex-grow gap-2 items-center">
+                    <BookOpenCheck size={30} />
+                    <div className="flex flex-col">
+                      <p className="text-tiny text-white/60">
+                        Course: {enrollment.courseName}
+                      </p>
+                      <p className="text-tiny text-white/60">
+                        By: {enrollment.instructor}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="space-x-2">
+                    <Button
+                      radius="full"
+                      size="sm"
+                      className="font-semibold"
+                      onPress={() => router.push(`/course/${enrollment.slug}`)}
+                    >
+                      Details
+                    </Button>
+                    <Button
+                      radius="full"
+                      size="sm"
+                      color="success"
+                      className="font-semibold"
+                    >
+                      Videos
+                    </Button>
+                  </div>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

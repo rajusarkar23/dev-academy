@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
     const { price, productId, studentId } = await req.json()
-    
+
     const uniqueOrderIdentifier = generateOTP(12)
 
     try {
