@@ -23,7 +23,6 @@ export default function EnrollmentsComp() {
   const router = useRouter();
 
   useEffect(() => {
-    setIsLoading(true);
     const fetchProfileDetails = async () => {
       const data = await getProfileDetails();
       setEnrollmenets(data.studentDetails.courses);
@@ -31,10 +30,6 @@ export default function EnrollmentsComp() {
     };
     fetchProfileDetails();
   }, []);
-
-  // if (isLoading) {
-  //   return <div>loading...</div>
-  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950">
@@ -63,11 +58,11 @@ export default function EnrollmentsComp() {
       </div>
 
       <div>
-        {enrollments.length === 0 && !isLoading && (
+        {/* {!isLoading && enrollments.length === 0 && (
           <div className="flex justify-center items-center min-h-[90vh]">
             <p>You do&#39;nt have any enrollments yet.</p>
           </div>
-        )}
+        )} */}
       </div>
       {/* NEW CARD */}
       <div className="">

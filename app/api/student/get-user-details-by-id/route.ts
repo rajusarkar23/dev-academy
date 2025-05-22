@@ -36,6 +36,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({success: true, message: "Courses fetched successfully", studentDetails: {
             email: findStudent[0].email,
             name: findStudent[0].name,
+            profileImage: findStudent[0].profileImageUrl,
             courses: getStudentCourses
         }})
     } catch (error) {

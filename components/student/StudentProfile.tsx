@@ -2,7 +2,6 @@
 
 import { Avatar, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function StudentProifle({

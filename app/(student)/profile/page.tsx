@@ -6,7 +6,8 @@ const Profile = async () => {
   const data = await getProfileDetails()
   return (
     <div>
-      <ProfileComp courses={data.studentDetails?.courses} email={data.studentDetails.email} name={data.studentDetails.name}/>
+
+      <ProfileComp email={data.studentDetails.email} name={data.studentDetails.name} profileImage = {data.studentDetails.profileImage}/>
     </div>
   )
 }
