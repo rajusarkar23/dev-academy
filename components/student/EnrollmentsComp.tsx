@@ -117,6 +117,7 @@ export default function EnrollmentsComp() {
                       size="sm"
                       color="success"
                       className="font-semibold"
+                      onPress={() => router.push(`/profile/enrollments/videos/${enrollment.slug}`)}
                     >
                       Videos
                     </Button>
