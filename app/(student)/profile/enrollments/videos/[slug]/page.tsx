@@ -69,6 +69,15 @@ const Videos = () => {
         )}
       </div>
       <div>
+        {!loading && videos.length === 0 && (
+          <div className="flex justify-center">
+            <p className="text-4xl">
+              There are no video available right now for this course.
+            </p>
+          </div>
+        )}
+      </div>
+      <div>
         {videos.length !== 0 && (
           <div>
             <div className="bg-default-300 w-full flex items-center space-x-2 pl-4 shadow-sm shadow-white">
@@ -90,7 +99,9 @@ const Videos = () => {
               <div className="sm:flex justify-between max-w-4xl mx-auto gap-2 sm:space-y-0 space-y-2 px-2">
                 <div className="space-y-1">
                   <div>
-                    <Chip color="secondary" size="sm">Currently playing</Chip>
+                    <Chip color="secondary" size="sm">
+                      Current playing
+                    </Chip>
                   </div>
                   <div className="bg-blue-100 p-2 rounded">
                     <video
@@ -110,9 +121,9 @@ const Videos = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                    <div>
-                        <Chip size="sm">All Videos</Chip>
-                    </div>
+                  <div>
+                    <Chip size="sm">All Videos</Chip>
+                  </div>
                   {videos.map((video, index) => (
                     <div
                       key={index}

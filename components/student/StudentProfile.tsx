@@ -1,30 +1,25 @@
 "use client";
 
-import {
-  Avatar,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@heroui/react";
+import { Avatar, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { deleteCookie } from "@/app/actions/logout/student/action";
+import { useState } from "react";
 
 export default function StudentProifle({
-  email,
   profileImage,
 }: {
-  email: string;
   profileImage: string;
 }) {
-  const router = useRouter();
+
+  const [isPopOverOpen, setisPopOverOpen] = useState(false);
 
   return (
-    <Dropdown className="text-black">
-      <DropdownTrigger>
+    <Popover
+      isOpen={isPopOverOpen}
+      onOpenChange={(open) => setisPopOverOpen(open)}
+    >
+      <PopoverTrigger>
         <Avatar
-          isBordered
           as="button"
           className="transition-transform"
           color="primary"
@@ -32,31 +27,25 @@ export default function StudentProifle({
           size="sm"
           src={profileImage}
         />
-      </DropdownTrigger>
-      <DropdownMenu aria-label="Static Actions">
-        <DropdownItem key="logedInAs">
-          <p>Loged in as:</p>
-          {email}
-        </DropdownItem>
-        <DropdownItem key="profile">
-          <Link href={"/profile"}>My profile</Link>
-        </DropdownItem>
-        <DropdownItem key="enrollments">
-          <Link href={"/profile/enrollments"}>My enrollments</Link>
-        </DropdownItem>
-        <DropdownItem
-          key="logout"
-          className="text-danger"
-          color="danger"
-          as="button"
-          onPress={async () => {
-            await deleteCookie();
-            router.push("/");
-          }}
-        >
-          Logout
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+      </PopoverTrigger>
+      <PopoverContent>
+        <div className="px-1 py-2 text-black flex flex-col items-center w-36">
+          <Link
+            href={"/profile"}
+            className="hover:bg-default-300 hover:cursor-pointer w-32 flex justify-center py-1 rounded-lg transition-all"
+            onClick={() => setisPopOverOpen(false)}
+          >
+            Profile
+          </Link>
+          <Link
+            href={"/profile/enrollments"}
+            className="hover:bg-default-300 hover:cursor-pointer w-32 flex justify-center py-1 rounded-lg transition-all"
+            onClick={() => setisPopOverOpen(false)}
+          >
+            Enrollments
+          </Link>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }

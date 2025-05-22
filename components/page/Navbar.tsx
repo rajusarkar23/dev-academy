@@ -30,9 +30,6 @@ export default async function Navbar() {
           <div>
             {auth.authenticated ? (
               <StudentProifle
-                email={auth.studentDetails.map(
-                  (student: Student) => student.email
-                )}
                 profileImage={auth.studentDetails.map(
                   (student: Student) => student.profileImage
                 )}
