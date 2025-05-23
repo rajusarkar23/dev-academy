@@ -9,21 +9,14 @@ export default function RootLayout({
 }) {
   return (
     <div>
-      {/* // for desktop */}
+      <div className="sm:hidden flex">
+        <Navbar />
+      </div>
       <div className="flex">
-        <div className="sm:flex hidden">
+        <div className="sm:flex hidden fixed left-0 top-0 h-screen w-64">
           <SideBar />
         </div>
-        <div className="flex-1 sm:flex hidden justify-center">{children}</div>
-      </div>
-      {/* // for mobile */}
-      <div>
-        <div className="flex flex-col">
-          <div className="sm:hidden flex">
-            <Navbar />
-          </div>
-          <div className="sm:hidden flex justify-center">{children}</div>
-        </div>
+        <div className="flex-1 sm:ml-64 justify-center flex">{children}</div>
       </div>
     </div>
   );

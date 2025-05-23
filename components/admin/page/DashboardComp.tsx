@@ -51,7 +51,7 @@ export default function DashboradComp() {
   }, []);
 
   return (
-    <div className="mt-8 min-h-[90vh]">
+    <div className="mt-8 min-h-screen">
       <div className="sm:flex sm:gap-3 sm:space-y-0 space-y-4 max-w-7xl mx-auto w-full">
         <div className="bg-yellow-700/20 p-4 rounded w-64 flex justify-center hover:scale-95 transition-all">
           {loading ? (

@@ -127,10 +127,10 @@ const Videos = () => {
                   {videos.map((video, index) => (
                     <div
                       key={index}
-                      className={`bg-yellow-50 w-full text-black flex items-center rounded p-0.5 space-x-2 hover:cursor-pointer ${
+                      className={`w-full text-black flex items-center rounded p-0.5 space-x-2 hover:cursor-pointer ${
                         currentVideo === video.videoUrl
-                          ? "bg-stone-600 text-white"
-                          : ""
+                          ? "text-blue-400 bg-yellow-50"
+                          : "bg-gray-600 text-black"
                       }`}
                       onClick={() => {
                         setCurrentVideo(video.videoUrl);

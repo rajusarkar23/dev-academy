@@ -133,6 +133,8 @@ export default function SingleCourse() {
     const [title, setTitle] = useState<string>("");
     const [videoOrder, setVideoOrder] = useState<string>("");
 
+    const [isLoading, setIsLoading] = useState(false);
+
     return (
       <>
         <div className="flex flex-wrap gap-3 py-2">
@@ -238,9 +240,11 @@ export default function SingleCourse() {
                     Close
                   </Button>
                   <Button
+                    isDisabled={isLoading}
                     color="primary"
                     onPress={async () => {
                       try {
+                        setIsLoading(true);
                         const sendReq = await fetch("/api/video/add", {
                           method: "POST",
                           headers: {
@@ -257,16 +261,19 @@ export default function SingleCourse() {
 
                         if (res.success) {
                           await handleVideoFetch();
+                          setIsLoading(false);
                           onClose();
                         } else {
                           console.log(res);
+                          setIsLoading(false);
                         }
                       } catch (error) {
                         console.log(error);
+                        setIsLoading(false);
                       }
                     }}
                   >
-                    Submit
+                    {isLoading ? <Spinner color="default"/> : <p>Submit</p>}
                   </Button>
                 </ModalFooter>
               </>
