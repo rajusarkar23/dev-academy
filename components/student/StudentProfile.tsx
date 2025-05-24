@@ -1,7 +1,8 @@
 "use client";
 
-import { Avatar, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
+import { Avatar, Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function StudentProifle({
@@ -11,6 +12,8 @@ export default function StudentProifle({
 }) {
 
   const [isPopOverOpen, setisPopOverOpen] = useState(false);
+
+  const router = useRouter()
 
   return (
     <Popover
@@ -28,7 +31,7 @@ export default function StudentProifle({
         />
       </PopoverTrigger>
       <PopoverContent>
-        <div className="px-1 py-2 text-black flex flex-col items-center w-36">
+        <div className="px-1 py-2 space-y-1 text-black flex flex-col items-center w-36">
           <Link
             href={"/profile"}
             className="hover:bg-default-300 hover:cursor-pointer w-32 flex justify-center py-1 rounded-lg transition-all"
@@ -43,6 +46,13 @@ export default function StudentProifle({
           >
             Enrollments
           </Link>
+          <Button color="danger" variant="flat" className="w-full" size="sm"
+            onPress={async () => {
+              await fetch("/api/student/auth/logout")
+              router.push("/")
+              router.refresh()
+            }}
+          >Logout</Button>
         </div>
       </PopoverContent>
     </Popover>
