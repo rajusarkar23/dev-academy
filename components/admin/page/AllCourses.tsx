@@ -59,11 +59,13 @@ export default function AllCoursesComp() {
     )
   }
   return (
+    <div className="min-h-screen">
+
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4 mx-auto max-w-5xl p-6">
       {courses.map((items) => (
         <div
-          key={items.id}
-          className="bg-zinc-800 rounded p-4 flex items-center justify-center hover:scale-95 transition-all hover:bg-zinc-700 "
+        key={items.id}
+        className="bg-zinc-800 rounded p-4 flex items-center justify-center hover:scale-95 transition-all hover:bg-zinc-700 "
         >
           <Link href={`/admin/dashboard/courses/${items.id}`} className="space-y-2">
             <Image
@@ -72,7 +74,7 @@ export default function AllCoursesComp() {
               width={600}
               height={400}
               className="rounded"
-            />
+              />
             <p className="mt-2 text-xl">{items.courseName}</p>
             <div>
               <Chip>
@@ -83,5 +85,6 @@ export default function AllCoursesComp() {
         </div>
       ))}
     </div>
+      </div>
   );
 }

@@ -67,7 +67,7 @@ export default function StudentComp() {
   }
 
   return (
-    <div className="py-8 space-y-4 min-h-[95vh]">
+    <div className="py-8 space-y-4 min-h-[100vh]">
       <div className="space-y-2">
         <h2 className="text-center text-5xl font-semibold">Students</h2>
         <p className="text-center font-semibold text-gray-300">

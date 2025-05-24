@@ -58,7 +58,7 @@ export default function StudentEnrollmentsComp() {
   }
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 min-h-screen">
       <div>
         <h1 className="text-4xl text-center font-semibold text-white/70">
           All failed enrollments
