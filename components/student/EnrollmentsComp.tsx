@@ -3,16 +3,12 @@
 import { Button, Card, Spinner, Image, CardFooter } from "@heroui/react";
 import { BookOpenCheck, MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getProfileDetails } from "@/app/actions/get-student-profile-details/action";
 import { useRouter } from "next/navigation";
 
 interface courses {
   courseName: string;
   slug: string;
-  courseShortDescription: string;
   instructor: string;
-  startingDate: string;
-  endDate: string;
   imageUrl: string;
 }
 
@@ -23,12 +19,27 @@ export default function EnrollmentsComp() {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchProfileDetails = async () => {
-      const data = await getProfileDetails();
-      setEnrollmenets(data.studentDetails.courses);
-      setIsLoading(false);
-    };
-    fetchProfileDetails();
+
+    (async () => {
+      try {
+        const sendReq = await fetch("/api/student/fetch-enrollments", {
+          method: "GET",
+          credentials: "include"
+        })
+
+        const res = await sendReq.json()
+
+        if (res.success) {
+          setEnrollmenets(res.enrollments)
+          setIsLoading(false)
+        } else {
+          console.log(res);
+        }
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false)
+      }
+    })()
   }, []);
 
   return (
@@ -58,11 +69,11 @@ export default function EnrollmentsComp() {
       </div>
 
       <div>
-        {/* {!isLoading && enrollments.length === 0 && (
+        {!isLoading && enrollments.length === 0 && (
           <div className="flex justify-center items-center min-h-[90vh]">
             <p>You do&#39;nt have any enrollments yet.</p>
           </div>
-        )} */}
+        )}
       </div>
       {/* NEW CARD */}
       <div className="">

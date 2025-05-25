@@ -4,6 +4,8 @@ import React from 'react'
 
 const Profile = async () => {
   const data = await getProfileDetails()
+  console.log(data.studentDetails.profileImage);
+  
   return (
     <div>
 
