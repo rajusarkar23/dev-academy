@@ -34,6 +34,7 @@ export default function EnrollmentsComp() {
           setIsLoading(false)
         } else {
           console.log(res);
+          setIsLoading(false)
         }
       } catch (error) {
         console.log(error);
@@ -71,7 +72,7 @@ export default function EnrollmentsComp() {
       <div>
         {!isLoading && enrollments.length === 0 && (
           <div className="flex justify-center items-center min-h-[90vh]">
-            <p>You do&#39;nt have any enrollments yet.</p>
+            <p>You don&#39;t have any enrollments yet.</p>
           </div>
         )}
       </div>
